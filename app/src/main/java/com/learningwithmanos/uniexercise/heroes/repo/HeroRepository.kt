@@ -26,8 +26,13 @@ class HeroRepositoryImpl @Inject constructor(
     private val heroLocalSource: HeroLocalSource,
 ): HeroRepository {
     override fun getHeroes(): List<Hero> {
-        // TODO
-        return listOf()
+        return if (!heroLocalSource.isHeroDataStored()) {
+            val heroes = heroRemoteSource.getHeroes()
+            heroLocalSource.storeHeroes(heroes)
+            heroes
+        } else {
+            heroLocalSource.getHeroes()
+        }
     }
 
 }

@@ -29,17 +29,15 @@ class HeroLocalSourceImpl @Inject constructor(
     private val dbWrapper: DBWrapper,
 ): HeroLocalSource {
     override fun isHeroDataStored(): Boolean {
-        // TODO
-        return false
+        return dbWrapper.isHeroDataStored()
     }
 
     override fun storeHeroes(heroes: List<Hero>) {
-        // TODO
+        dbWrapper.storeHeroes(heroes = heroes)
     }
 
     override fun getHeroes(): List<Hero> {
-        // TODO
-        return listOf()
+        return dbWrapper.getHeroes()
     }
 
 }

@@ -15,7 +15,6 @@ class GetHeroesSortedByHighestNumberOfComicsUCImpl @Inject constructor(
     private val heroRepository: HeroRepository,
 ): GetHeroesSortedByHighestNumberOfComicsUC {
     override fun execute(): List<Hero> {
-        // TODO
-        return listOf()
+        return heroRepository.getHeroes().sortedByDescending { it.availableComics }
     }
 }

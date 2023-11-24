@@ -19,8 +19,7 @@ class HeroRemoteSourceImpl @Inject constructor(
 ): HeroRemoteSource {
 
     override fun getHeroes(): List<Hero> {
-        // TODO
-        return listOf()
+        return restFrameworkWrapper.getHeroes()
     }
 
 }

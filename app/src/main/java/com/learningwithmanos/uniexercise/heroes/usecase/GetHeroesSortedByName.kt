@@ -15,8 +15,7 @@ class GetHeroesSortedByNameUCImpl @Inject constructor(
     private val heroRepository: HeroRepository
 ): GetHeroesSortedByNameUC {
     override fun execute(): List<Hero> {
-        // TODO
-        return listOf()
+        return heroRepository.getHeroes().sortedBy { it.name }
     }
 
 }

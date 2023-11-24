@@ -34,8 +34,14 @@ class HeroesViewModel @Inject constructor(
      * @param selectedTab
      */
     fun getHeroes(selectedTab: Tab): List<HeroTileModel> {
-        // TODO
-        return listOf()
+        return when (selectedTab) {
+            Tab.Heroes -> getHeroesUC.execute().map { it.mapHeroToHeroTileModel() }
+            Tab.SortedByNameHeroes -> getHeroesSortedByNameUC.execute()
+                .map { it.mapHeroToHeroTileModel() }
+
+            Tab.SortedByComicHeroes -> getHeroesSortedByHighestNumberOfComicsUC.execute()
+                .map { it.mapHeroToHeroTileModel() }
+        }
     }
 
     /**
@@ -43,8 +49,11 @@ class HeroesViewModel @Inject constructor(
      * @param selectedTab
      */
     fun getSelectedIndex(selectedTab: Tab): Int {
-        // TODO
-        return 0
+        return when (selectedTab) {
+            Tab.Heroes -> 0
+            Tab.SortedByNameHeroes -> 1
+            Tab.SortedByComicHeroes -> 2
+        }
     }
 
     /**
