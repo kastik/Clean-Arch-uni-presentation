@@ -17,7 +17,7 @@ class GetHeroesSortedByNameUCImpl @Inject constructor(
     private val heroRepository: HeroRepository
 ): GetHeroesSortedByNameUC {
     override suspend fun execute(): Flow<List<Hero>> {
-        return heroRepository.getHeroes().map { it.sortedBy { it.name } }
+        return heroRepository.getHeroes().map { list -> list.sortedBy { it.name } }
     }
 
 }
