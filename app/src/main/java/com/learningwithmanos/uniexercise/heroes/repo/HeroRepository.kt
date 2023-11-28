@@ -3,6 +3,10 @@ package com.learningwithmanos.uniexercise.heroes.repo
 import com.learningwithmanos.uniexercise.heroes.data.Hero
 import com.learningwithmanos.uniexercise.heroes.source.local.HeroLocalSource
 import com.learningwithmanos.uniexercise.heroes.source.remote.HeroRemoteSource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 /**
@@ -18,20 +22,23 @@ interface HeroRepository {
      *
      * @return list of heroes
      */
-    fun getHeroes(): List<Hero>
+    suspend fun getHeroes(): Flow<List<Hero>>
 }
 
 class HeroRepositoryImpl @Inject constructor(
     private val heroRemoteSource: HeroRemoteSource,
     private val heroLocalSource: HeroLocalSource,
-): HeroRepository {
-    override fun getHeroes(): List<Hero> {
-        return if (!heroLocalSource.isHeroDataStored()) {
-            val heroes = heroRemoteSource.getHeroes()
-            heroLocalSource.storeHeroes(heroes)
-            heroes
-        } else {
-            heroLocalSource.getHeroes()
+) : HeroRepository {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override suspend fun getHeroes(): Flow<List<Hero>>  {
+        return heroLocalSource.isHeroDataStored().flatMapLatest { isHeroDataStored ->
+            if (!isHeroDataStored) {
+                heroRemoteSource.getHeroes().onEach {
+                    heroLocalSource.storeHeroes(it)
+                }
+            } else {
+                heroLocalSource.getHeroes()
+            }
         }
     }
 

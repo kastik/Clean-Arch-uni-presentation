@@ -8,9 +8,12 @@ import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesSortedByHighest
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesSortedByNameUC
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUC
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -29,20 +32,21 @@ class HeroesViewModel @Inject constructor(
         initialValue = _selectedTabStateFlow.value
     )
 
-    /**
-     * Utilises corresponding UC to retrieve data based on the selectedTab.
-     * @param selectedTab
-     */
-    fun getHeroes(selectedTab: Tab): List<HeroTileModel> {
-        return when (selectedTab) {
-            Tab.Heroes -> getHeroesUC.execute().map { it.mapHeroToHeroTileModel() }
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val heroesStateFlow: StateFlow<List<HeroTileModel>> = selectedTabStateFlow.flatMapLatest { selectedTab ->
+        when (selectedTab) {
+            Tab.Heroes -> getHeroesUC.execute().map { list -> list.map { it.mapHeroToHeroTileModel() }}
             Tab.SortedByNameHeroes -> getHeroesSortedByNameUC.execute()
-                .map { it.mapHeroToHeroTileModel() }
+                .map { list -> list.map { it.mapHeroToHeroTileModel() }}
 
             Tab.SortedByComicHeroes -> getHeroesSortedByHighestNumberOfComicsUC.execute()
-                .map { it.mapHeroToHeroTileModel() }
+                .map { list -> list.map { it.mapHeroToHeroTileModel() }}
         }
-    }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = listOf()
+    )
 
     /**
      * Utilises corresponding UC to retrieve data based on the selectedTab.

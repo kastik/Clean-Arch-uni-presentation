@@ -17,6 +17,7 @@ fun HeroesScreen(
 ) {
 
     val selectedTab = viewModel.selectedTabStateFlow.collectAsState()
+    val heroesList = viewModel.heroesStateFlow.collectAsState()
 
     Column {
         TabRow(selectedTabIndex = viewModel.getSelectedIndex(selectedTab.value)) {
@@ -26,7 +27,7 @@ fun HeroesScreen(
         }
 
         Column {
-            ShowHeroes(heroes = viewModel.getHeroes(selectedTab.value))
+            ShowHeroes(heroes = heroesList.value)
         }
     }
 }
