@@ -2,6 +2,9 @@ package com.learningwithmanos.uniexercise.heroes.usecase
 
 import com.learningwithmanos.uniexercise.heroes.data.Hero
 import com.learningwithmanos.uniexercise.heroes.repo.HeroRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
@@ -10,7 +13,7 @@ import org.mockito.BDDMockito.given
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
-
+@OptIn(ExperimentalCoroutinesApi::class)
 class GetHeroesSortedByNameUCImplTest {
 
     private lateinit var getHeroesSortedByNameUCImpl: GetHeroesSortedByNameUCImpl
@@ -25,18 +28,19 @@ class GetHeroesSortedByNameUCImplTest {
     }
 
     @Test
-    fun `when execute is invoked then verify interactions`(){
+    fun `when execute is invoked then verify interactions`()= runTest{
         // given
         val heroesList = dummyHeroList()
-        given(heroRepositoryMock.getHeroes()).willReturn(heroesList)
+        given(heroRepositoryMock.getHeroes()).willReturn(flowOf(heroesList))
         val expectedHeroesList = sortHeroListByName(heroesList)
 
         // when
-        val actual = getHeroesSortedByNameUCImpl.execute()
+        getHeroesSortedByNameUCImpl.execute().collect { actual ->
+            // then
+            assertThat(actual, equalTo(expectedHeroesList))
+            verify(heroRepositoryMock).getHeroes()
+        }
 
-        // then
-        assertThat(actual, equalTo(expectedHeroesList))
-        verify(heroRepositoryMock).getHeroes()
     }
 
     private fun dummyHeroList(): List<Hero> {
