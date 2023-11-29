@@ -6,21 +6,21 @@ import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 interface DBWrapper {
-    suspend fun isHeroDataStored(): Flow<Boolean>
-    suspend fun storeHeroes(heroes: List<Hero>)
-    suspend fun getHeroes(): Flow<List<Hero>>
+    fun isHeroDataStored(): Flow<Boolean>
+    fun storeHeroes(heroes: List<Hero>)
+    fun getHeroes(): Flow<List<Hero>>
 }
 
 class DummyDBWrapper @Inject constructor() : DBWrapper {
-    override suspend fun isHeroDataStored(): Flow<Boolean> {
+    override fun isHeroDataStored(): Flow<Boolean> {
         return flowOf(false)
     }
 
-    override suspend fun storeHeroes(heroes: List<Hero>) {
+    override fun storeHeroes(heroes: List<Hero>) {
         // do nothing
     }
 
-    override suspend fun getHeroes(): Flow<List<Hero>> {
+    override fun getHeroes(): Flow<List<Hero>> {
         return flowOf(listOf())
     }
 }

@@ -6,7 +6,7 @@ import com.learningwithmanos.uniexercise.heroes.source.remote.HeroRemoteSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 /**
@@ -33,9 +33,9 @@ class HeroRepositoryImpl @Inject constructor(
     override suspend fun getHeroes(): Flow<List<Hero>>  {
         return heroLocalSource.isHeroDataStored().flatMapLatest { isHeroDataStored ->
             if (!isHeroDataStored) {
-                heroRemoteSource.getHeroes().onEach {
-                    heroLocalSource.storeHeroes(it)
-                }
+                val heroList = heroRemoteSource.getHeroes()
+                heroLocalSource.storeHeroes(heroList)
+                flowOf(heroList)
             } else {
                 heroLocalSource.getHeroes()
             }

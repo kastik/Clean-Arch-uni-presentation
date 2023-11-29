@@ -12,32 +12,32 @@ interface HeroLocalSource {
     /**
      * @return true if heroes are stored locally else false
      */
-    suspend fun isHeroDataStored(): Flow<Boolean>
+    fun isHeroDataStored(): Flow<Boolean>
 
     /**
      * Stores a list of heroes to the local data storage
      * @param heroes list of heroes to be stored
      */
-    suspend fun storeHeroes(heroes: List<Hero>)
+    fun storeHeroes(heroes: List<Hero>)
 
     /**
      * @return the list of heroes stored at the local storage
      */
-    suspend fun getHeroes(): Flow<List<Hero>>
+    fun getHeroes(): Flow<List<Hero>>
 }
 
 class HeroLocalSourceImpl @Inject constructor(
     private val dbWrapper: DBWrapper,
 ): HeroLocalSource {
-    override suspend fun isHeroDataStored(): Flow<Boolean> {
+    override fun isHeroDataStored(): Flow<Boolean> {
         return dbWrapper.isHeroDataStored()
     }
 
-    override suspend fun storeHeroes(heroes: List<Hero>) {
+    override fun storeHeroes(heroes: List<Hero>) {
         dbWrapper.storeHeroes(heroes = heroes)
     }
 
-    override suspend fun getHeroes(): Flow<List<Hero>> {
+    override fun getHeroes(): Flow<List<Hero>> {
         return dbWrapper.getHeroes()
     }
 
