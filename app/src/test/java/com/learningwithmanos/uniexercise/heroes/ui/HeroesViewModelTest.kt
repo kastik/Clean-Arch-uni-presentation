@@ -13,6 +13,8 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.verifyNoMoreInteractions
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HeroesViewModelTest {
@@ -61,28 +63,79 @@ class HeroesViewModelTest {
     }
 
     @Test
-    fun `given selected tab is Heroes when the heroesStateFlow is collected then verify interactions`() {
-        // TODO
+    fun `given selected tab is Heroes when the heroesStateFlow is collected then verify interactions`() = runTest {
+        // given
+        heroesViewModel.selectTab(Tab.Heroes)
+
+        // when
+        backgroundScope.launch {
+            heroesViewModel.heroesStateFlow.collectLatest {
+                // then
+                verify(getHeroesUCMock).execute()
+                verifyNoMoreInteractions(getHeroesSortedByNameUCMock)
+                verifyNoMoreInteractions(getHeroesSortedByHighestNumberOfComicsUCMock)
+            }
+        }
     }
 
     @Test
-    fun `given selected tab is SortedByNameHeroes when the selectedTabStateFlow is collected then assert result`() {
-        // TODO
+    fun `given selected tab is SortedByNameHeroes when the selectedTabStateFlow is collected then assert result`() = runTest {
+        // given
+        heroesViewModel.selectTab(Tab.SortedByNameHeroes)
+
+        // when
+        backgroundScope.launch {
+            heroesViewModel.selectedTabStateFlow.collectLatest {
+                // then
+                assertThat(it, equalTo(Tab.SortedByNameHeroes))
+            }
+        }
     }
 
     @Test
-    fun `given selected tab is SortedByNameHeroes when the heroesStateFlow is collected then verify interactions`() {
-        // TODO
+    fun `given selected tab is SortedByNameHeroes when the heroesStateFlow is collected then verify interactions`() = runTest {
+        // given
+        heroesViewModel.selectTab(Tab.SortedByNameHeroes)
+
+        // when
+        backgroundScope.launch {
+            heroesViewModel.heroesStateFlow.collectLatest {
+                // then
+                verify(getHeroesSortedByNameUCMock).execute()
+                verifyNoMoreInteractions(getHeroesUCMock)
+                verifyNoMoreInteractions(getHeroesSortedByHighestNumberOfComicsUCMock)
+            }
+        }
     }
 
     @Test
-    fun `given selected tab is SortedByComicHeroes when the selectedTabStateFlow is collected then assert result`() {
-        // TODO
+    fun `given selected tab is SortedByComicHeroes when the selectedTabStateFlow is collected then assert result`() = runTest {
+        // given
+        heroesViewModel.selectTab(Tab.SortedByComicHeroes)
+
+        // when
+        backgroundScope.launch {
+            heroesViewModel.selectedTabStateFlow.collectLatest {
+                // then
+                assertThat(it, equalTo(Tab.SortedByComicHeroes))
+            }
+        }
     }
 
     @Test
-    fun `given selected tab is SortedByComicHeroes when the heroesStateFlow is collected then verify interactions`() {
-        // TODO
+    fun `given selected tab is SortedByComicHeroes when the heroesStateFlow is collected then verify interactions`() = runTest {
+        // given
+        heroesViewModel.selectTab(Tab.SortedByComicHeroes)
+
+        // when
+        backgroundScope.launch {
+            heroesViewModel.heroesStateFlow.collectLatest {
+                // then
+                verify(getHeroesSortedByHighestNumberOfComicsUCMock).execute()
+                verifyNoMoreInteractions(getHeroesUCMock)
+                verifyNoMoreInteractions(getHeroesSortedByNameUCMock)
+            }
+        }
     }
 
 }
