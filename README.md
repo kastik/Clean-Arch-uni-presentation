@@ -15,8 +15,8 @@
     * Koin (Runtime)
     * Hilt-Dagger (Compile)
 * Για Rest calls: 
-    * Retrofit
     * Ktor
+    * Retrofit
 * Για βάση δεδομένων:
     * Room
     * Realm
