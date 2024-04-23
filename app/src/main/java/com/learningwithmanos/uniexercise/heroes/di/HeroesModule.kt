@@ -10,6 +10,8 @@ import com.learningwithmanos.uniexercise.heroes.source.remote.RestFramework
 import com.learningwithmanos.uniexercise.heroes.source.remote.RestFrameworkImpl
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUC
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUCImpl
+import com.learningwithmanos.uniexercise.heroes.usecase.QueryUC
+import com.learningwithmanos.uniexercise.heroes.usecase.QueryUSImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -26,6 +28,11 @@ interface HeroesModule {
     fun bindsGetHeroesUC(
         getHeroesUCImpl: GetHeroesUCImpl
     ): GetHeroesUC
+
+    @Binds
+    fun bindsQueryUC(
+        queryUCImpl: QueryUSImpl
+    ): QueryUC
 
     // Repository
 
