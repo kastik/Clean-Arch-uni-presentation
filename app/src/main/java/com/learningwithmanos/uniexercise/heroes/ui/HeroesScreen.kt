@@ -1,32 +1,21 @@
 package com.learningwithmanos.uniexercise.heroes.ui
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewModelScope
+import com.learningwithmanos.uniexercise.heroes.data.Hero
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HeroesScreen(
-    viewModel: HeroesViewModel = hiltViewModel()
+
+    //viewModel: HeroesViewModel = hiltViewModel()
 ) {
-
-   // val selectedTab = viewModel.selectedTabStateFlow.collectAsState()
-    val heroesList = viewModel.heroesStateFlow.collectAsState(initial = listOf())
-
-        Column {
-            ShowHeroes(heroes = heroesList.value)
-        }
+    HeroCard(Hero(5,"",5,""))
 }
-
 @Composable
 fun ShowHeroes(heroes: List<HeroTileModel>) {
-    heroes.forEach { 
-        Text(text = it.title)
-    }
+
+    //heroes.forEach {
+    //    Text(text = it.title)
+    //}
 }

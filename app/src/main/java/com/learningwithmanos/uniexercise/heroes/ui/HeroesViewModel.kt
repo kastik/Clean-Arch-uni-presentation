@@ -8,28 +8,68 @@ import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesSortedByNameUC
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HeroesViewModel @Inject constructor(
     private val getHeroesUC: GetHeroesUC,
+    private val getHeroesSortedByNameUC: GetHeroesSortedByNameUC,
+    private val getHeroesSortedByHighestNumberOfComicsUC: GetHeroesSortedByHighestNumberOfComicsUC
 ) : ViewModel() {
-    var heroesStateFlow: Flow<List<HeroTileModel>> = flowOf(listOf());
 
-    init {
-        viewModelScope.launch {
-            heroesStateFlow = getHeroesUC.execute().map { list -> list.map { it.mapHeroToHeroTileModel() }}
+    /*
+
+    private var _selectedTabStateFlow: MutableStateFlow<Tab> = MutableStateFlow(Tab.Heroes)
+
+    val selectedTabStateFlow: StateFlow<Tab> = _selectedTabStateFlow.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = _selectedTabStateFlow.value
+    )
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val heroesStateFlow: StateFlow<List<HeroTileModel>> = selectedTabStateFlow.flatMapLatest { selectedTab ->
+        when (selectedTab) {
+            Tab.Heroes -> getHeroesUC.execute().map { list -> list.map { it.mapHeroToHeroTileModel() }}
+            Tab.SortedByNameHeroes -> getHeroesSortedByNameUC.execute()
+                .map { list -> list.map { it.mapHeroToHeroTileModel() }}
+
+            Tab.SortedByComicHeroes -> getHeroesSortedByHighestNumberOfComicsUC.execute()
+                .map { list -> list.map { it.mapHeroToHeroTileModel() }}
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = listOf()
+    )
+
+    /**
+     * Utilises corresponding UC to retrieve data based on the selectedTab.
+     * @param selectedTab
+     */
+    fun getSelectedIndex(selectedTab: Tab): Int {
+        return when (selectedTab) {
+            Tab.Heroes -> 0
+            Tab.SortedByNameHeroes -> 1
+            Tab.SortedByComicHeroes -> 2
         }
     }
+
+    /**
+     * Sets the selected tab
+     */
+    fun selectTab(tab: Tab) {
+        _selectedTabStateFlow.value = tab
+    }
+
+     */
+
 }
 
 data class HeroTileModel(
