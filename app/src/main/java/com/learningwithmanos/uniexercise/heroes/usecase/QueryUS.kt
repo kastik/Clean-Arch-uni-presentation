@@ -1,5 +1,6 @@
 package com.learningwithmanos.uniexercise.heroes.usecase
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.learningwithmanos.uniexercise.heroes.data.Hero
 import com.learningwithmanos.uniexercise.heroes.repo.HeroRepository
@@ -18,6 +19,7 @@ class QueryUSImpl @Inject constructor(
     private val heroRepository: HeroRepository
 ) : QueryUC {
     override suspend fun execute(): Flow<List<Hero>> {
+        Log.d("MyLog","QueryUSImpl")
         return heroRepository.getHeroes()
     }
 

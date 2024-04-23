@@ -16,13 +16,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QueryViewModel @Inject constructor(
-    private val getHeroesUC: GetHeroesUC,
+    private val getQueryUC: GetHeroesUC,
 ) : ViewModel() {
 
     init {
         viewModelScope.launch {
 
-            heroesStateFlow = getHeroesUC.execute().map { list -> list.map { it }}
+            heroesStateFlow = getQueryUC.execute().map { list -> list.map { it }}
         }
     }
 
