@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("com.google.dagger.hilt.android")
     id("kotlin-android")
-    kotlin("kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -51,9 +51,7 @@ android {
     }
 
     // Allow references to generated code
-    kapt {
-        correctErrorTypes = true
-    }
+
 }
 
 dependencies {
@@ -78,7 +76,7 @@ dependencies {
 
     // hilt
     implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.47")
+    ksp("com.google.dagger:hilt-android-compiler:2.47")
 
     // hilt and compose navigation
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
@@ -92,15 +90,15 @@ dependencies {
     implementation ("com.squareup.retrofit2:adapter-rxjava2:2.3.0")
 
     //Okhhtp
-    implementation ("com.squareup.okhttp3:logging-interceptor:3.8.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.10.0")
     //RxJava
     implementation ("io.reactivex.rxjava2:rxjava:2.2.6")
     implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
 
     //Room
     implementation( "androidx.room:room-ktx:2.6.1")
-    implementation ("androidx.room:room-runtime:2.6.1")
-    kapt ("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-runtime:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
 
     //Coroutines
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
@@ -114,4 +112,7 @@ dependencies {
 
     //Image COIL
     implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+
+    implementation("androidx.compose.material:material-icons-extended")
 }
