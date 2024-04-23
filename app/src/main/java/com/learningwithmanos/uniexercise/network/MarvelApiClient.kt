@@ -13,6 +13,9 @@ object MarvelApiClient {
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
         .build()
         .create(MarvelApi::class.java)
+
     }
+
+
 
 }
