@@ -3,6 +3,7 @@ package com.learningwithmanos.uniexercise.heroes.ui
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -10,7 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -38,20 +41,34 @@ fun HeroCard(data: Hero){ //TODO Change to hero data
         ),
         border = BorderStroke(1.dp, Color.Black),
         modifier = Modifier
-            .height(100.dp).fillMaxWidth()
+            .height(100.dp)
+            .fillMaxWidth()
     ){
-        Row(Modifier.fillMaxWidth(1f)) {
-            GlideImage(
-                model = data.imageUrl,
-                contentDescription = "getString(R.id.picture_of_cat)",
-                loading = placeholder{ Icon(Icons.Default.ArrowBack,"") }
-            )
-            Column {
+        Row(Modifier.fillMaxWidth()) {
+            Column(Modifier.fillMaxHeight(1f).fillMaxWidth(0.2f)) {
+                GlideImage(
+                    model = data.imageUrl,
+                    contentDescription = "getString(R.id.picture_of_cat)",
+                    loading = placeholder { Icon(Icons.AutoMirrored.Filled.ArrowBack, "") }
+                )
+            }
+            Column(
+                Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(0.5f)) {
                 Text(text = data.name)
                 Text(text = data.availableComics.toString())
             }
+            Column(
+                Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth()) {
+                Icon(Icons.Default.PlayArrow, contentDescription = "")
+            }
 
         }
+
+
 
     }
 
