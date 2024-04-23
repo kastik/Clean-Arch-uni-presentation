@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -21,17 +21,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.learningwithmanos.uniexercise.heroes.data.Hero
+import com.learningwithmanos.uniexercise.heroes.ui.QueryScreen.QueryViewModel
 
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun HeroCard(data: Hero,show: Boolean){ //TODO Change to hero data
+fun HeroCard(name: String, image: String, show: Boolean){ //TODO Change to hero data
     OutlinedCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
@@ -50,7 +51,7 @@ fun HeroCard(data: Hero,show: Boolean){ //TODO Change to hero data
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 GlideImage(
-                    model = data.imageUrl,
+                    model = image,
                     contentDescription = "getString(R.id.picture_of_cat)",
                     loading = placeholder { Icon(Icons.Default.Create, "") }
                 )
@@ -61,7 +62,7 @@ fun HeroCard(data: Hero,show: Boolean){ //TODO Change to hero data
                     .fillMaxWidth(0.5f),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally){
-                Text(text = data.name, style = MaterialTheme.typography.headlineSmall)
+                Text(text = name, style = MaterialTheme.typography.headlineSmall)
                 //Text(text = data.availableComics.toString())
             }
             Column(
@@ -92,11 +93,4 @@ fun HeroCard(data: Hero,show: Boolean){ //TODO Change to hero data
         //Description
         //thumbnail
 
-}
-
-
-@Composable
-@Preview
-fun HeroPreview(){
-    HeroCard(Hero(5,"Spider-Man",5,"",""),true)
 }

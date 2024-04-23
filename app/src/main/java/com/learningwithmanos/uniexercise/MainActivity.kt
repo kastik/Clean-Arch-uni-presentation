@@ -16,6 +16,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppPreferences.setup(applicationContext)
+        AppPreferences.apikey = "0cf69d45e2482a87f2a9af138efba603"
+        AppPreferences.privatekey = "8aa649a8b299924f9428f6db08189950b7bfd728"
+
         setContent {
             MyApplicationTheme {
                 Surface(

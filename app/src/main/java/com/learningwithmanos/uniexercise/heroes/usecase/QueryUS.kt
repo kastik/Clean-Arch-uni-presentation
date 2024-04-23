@@ -11,7 +11,7 @@ import javax.inject.Inject
 interface QueryUC {
     suspend fun execute(): Flow<List<Hero>>
 
-    suspend fun update(id: Int, description: String?)
+    suspend fun setDesc(id: Int)
 
 }
 
@@ -23,8 +23,8 @@ class QueryUSImpl @Inject constructor(
         return heroRepository.getHeroes()
     }
 
-    override suspend fun update(id: Int, description: String?) {
-            heroRepository.update(id, description)
+    override suspend fun setDesc(id: Int) {
+            heroRepository.setDesc(id)
     }
 
 }
