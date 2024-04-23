@@ -16,5 +16,8 @@ data class LHero(
         var availableComics: Int,
 
         @ColumnInfo(name = "marvel_image")
-        var imageUrl: String
+        var imageUrl: String,
+
+        @ColumnInfo(name = "marvel_desc")
+        var description: String
 )

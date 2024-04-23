@@ -39,6 +39,7 @@ class HeroRemoteSourceImpl @Inject constructor(
         name = this.name,
         availableComics = this.availableComics.availableComics,
         imageUrl = Converters().thumbnailToString(this.imageUrl)
+
     )
 
 }

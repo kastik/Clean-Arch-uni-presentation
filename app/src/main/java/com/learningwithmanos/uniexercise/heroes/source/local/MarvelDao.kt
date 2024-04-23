@@ -33,4 +33,7 @@ interface MarvelDao {
 
     @Query("DELETE FROM MarvelTable")
     suspend fun deleteAll()
+
+    @Query("UPDATE MarvelTable SET marvel_desc = :description WHERE id =:id")
+    fun update(id: Int, description: String?)
 }

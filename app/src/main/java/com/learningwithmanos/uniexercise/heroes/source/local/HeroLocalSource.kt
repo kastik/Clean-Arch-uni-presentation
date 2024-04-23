@@ -72,7 +72,8 @@ class HeroLocalSourceImpl @Inject constructor(private val marvelDao : MarvelDao)
         id = this.id,
         name = this.name,
         availableComics = this.availableComics,
-        imageUrl = this.imageUrl
+        imageUrl = this.imageUrl,
+        description = ""
     )
 
 }
