@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.PlayArrow
@@ -53,7 +52,7 @@ fun HeroCard(data: Hero,show: Boolean){ //TODO Change to hero data
                 GlideImage(
                     model = data.imageUrl,
                     contentDescription = "getString(R.id.picture_of_cat)",
-                    loading = placeholder { Icon(Icons.AutoMirrored.Filled.ArrowBack, "") }
+                    loading = placeholder { Icon(Icons.Default.Create, "") }
                 )
             }
             Column(
@@ -99,5 +98,5 @@ fun HeroCard(data: Hero,show: Boolean){ //TODO Change to hero data
 @Composable
 @Preview
 fun HeroPreview(){
-    HeroCard(Hero(5,"Spider-Man",5,""),true)
+    HeroCard(Hero(5,"Spider-Man",5,"",""),true)
 }

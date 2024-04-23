@@ -3,6 +3,7 @@ package com.learningwithmanos.uniexercise.heroes.ui.SettingsScreen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -16,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable
+@ExperimentalMaterial3Api
 fun SettingsScreen() {
     val text = remember{ mutableStateOf("") }
     Column(Modifier.fillMaxSize(),

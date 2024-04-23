@@ -101,7 +101,7 @@ fun MainUi(){
             }
             composable(AvailableScreens.QueryScreen.name){
                 openTab.value = AvailableScreens.QueryScreen
-                QueryScreen(data = Hero(1,"",1,""))
+                QueryScreen()
             }
             composable(AvailableScreens.Todo.name){
                 //TODO

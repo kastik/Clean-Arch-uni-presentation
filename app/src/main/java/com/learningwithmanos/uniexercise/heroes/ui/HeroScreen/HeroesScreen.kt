@@ -7,6 +7,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.learningwithmanos.uniexercise.heroes.data.Hero
 import com.learningwithmanos.uniexercise.heroes.ui.HeroCard
+import com.learningwithmanos.uniexercise.heroes.ui.HeroTileModel
+import com.learningwithmanos.uniexercise.heroes.ui.HeroesViewModel
 
 @Composable
 fun HeroesScreen(
@@ -15,7 +17,7 @@ fun HeroesScreen(
     // val selectedTab = viewModel.selectedTabStateFlow.collectAsState()
     val heroesList = viewModel.heroesStateFlow.collectAsState(initial = listOf())
 
-    HeroCard(data = Hero(1,"",1,""),false) //TODO Display List
+    HeroCard(data = Hero(1,"",1,"",""),false) //TODO Display List
 
 
 }
@@ -30,5 +32,5 @@ fun ShowHeroes(heroes: List<HeroTileModel>) {
 @Preview
 @Composable
 fun paok(){
-    HeroCard(data = Hero(1,"Doctor Strange",1,""), show = false)
+    HeroCard(data = Hero(1,"Doctor Strange",1,"",""), show = false)
 }
