@@ -4,7 +4,6 @@ import com.learningwithmanos.uniexercise.heroes.source.remote.RestApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-
 interface MarvelApi {
 
     @GET("characters")

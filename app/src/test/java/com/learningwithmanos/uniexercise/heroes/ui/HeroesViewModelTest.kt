@@ -1,5 +1,6 @@
 package com.learningwithmanos.uniexercise.heroes.ui
 
+import com.learningwithmanos.uniexercise.heroes.ui.HeroScreen.HeroesViewModel
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesSortedByHighestNumberOfComicsUC
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesSortedByNameUC
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUC
