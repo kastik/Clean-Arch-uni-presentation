@@ -23,6 +23,8 @@ interface HeroRepository {
      * @return list of heroes
      */
     suspend fun getHeroes(): Flow<List<Hero>>
+
+    suspend fun setApiValues(apikey: String, privatekey: String)
 }
 
 class HeroRepositoryImpl @Inject constructor(
@@ -31,15 +33,19 @@ class HeroRepositoryImpl @Inject constructor(
 ) : HeroRepository {
     @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun getHeroes(): Flow<List<Hero>>  {
-        return heroLocalSource.isHeroDataStored().flatMapLatest { isHeroDataStored ->
-            if (!isHeroDataStored) {
+        return heroLocalSource.isEmpty().flatMapLatest { isEmpty ->
+            if (isEmpty) {
                 val heroList = heroRemoteSource.getHeroes()
                 heroLocalSource.storeHeroes(heroList)
-                flowOf(heroList)
+                flowOf((heroList))
             } else {
                 heroLocalSource.getHeroes()
             }
         }
+    }
+
+    override suspend fun setApiValues(apikey: String, privatekey: String) {
+        heroLocalSource.setApiValues(apikey, privatekey)
     }
 
 }
