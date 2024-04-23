@@ -1,7 +1,9 @@
 package com.learningwithmanos.uniexercise.network
 
 import com.learningwithmanos.uniexercise.heroes.source.remote.RestApiResponse
+import com.learningwithmanos.uniexercise.heroes.source.remote.SingleRestResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MarvelApi {
@@ -14,4 +16,14 @@ interface MarvelApi {
         @Query("limit") limit: Int?,
         @Query("offset") offset: Int?
     ): RestApiResponse
+
+    @GET("characters/{id}")
+    suspend fun getCharacter(
+        @Path("id") id: Int,
+        @Query("ts") timestamp: Long?,
+        @Query("apikey") apiKey: String?,
+        @Query("hash") hash: String?,
+        @Query("limit") limit: Int?,
+        @Query("offset") offset: Int?
+    ): SingleRestResponse
 }

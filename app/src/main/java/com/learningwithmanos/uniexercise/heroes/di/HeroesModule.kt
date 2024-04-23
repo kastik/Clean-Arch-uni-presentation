@@ -8,10 +8,6 @@ import com.learningwithmanos.uniexercise.heroes.source.remote.HeroRemoteSource
 import com.learningwithmanos.uniexercise.heroes.source.remote.HeroRemoteSourceImpl
 import com.learningwithmanos.uniexercise.heroes.source.remote.RestFramework
 import com.learningwithmanos.uniexercise.heroes.source.remote.RestFrameworkImpl
-import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesSortedByHighestNumberOfComicsUC
-import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesSortedByHighestNumberOfComicsUCImpl
-import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesSortedByNameUC
-import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesSortedByNameUCImpl
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUC
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUCImpl
 import dagger.Binds
@@ -30,16 +26,6 @@ interface HeroesModule {
     fun bindsGetHeroesUC(
         getHeroesUCImpl: GetHeroesUCImpl
     ): GetHeroesUC
-
-    @Binds
-    fun bindsGetHeroesSortedByNameUC(
-        getHeroesSortedByNameUCImpl: GetHeroesSortedByNameUCImpl
-    ): GetHeroesSortedByNameUC
-
-    @Binds
-    fun bindsGetHeroesSortedByHighestNumberOfComicsUC(
-        getHeroesSortedByHighestNumberOfComicsUCImpl: GetHeroesSortedByHighestNumberOfComicsUCImpl
-    ): GetHeroesSortedByHighestNumberOfComicsUC
 
     // Repository
 

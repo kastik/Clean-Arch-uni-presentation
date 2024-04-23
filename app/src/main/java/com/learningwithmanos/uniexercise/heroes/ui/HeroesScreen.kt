@@ -19,9 +19,9 @@ fun HeroesScreen(
    // val selectedTab = viewModel.selectedTabStateFlow.collectAsState()
     val heroesList = viewModel.heroesStateFlow.collectAsState(initial = listOf())
 
-        Column {
-            ShowHeroes(heroes = heroesList.value)
-        }
+    Column {
+        ShowHeroes(heroes = heroesList.value)
+    }
 }
 
 @Composable

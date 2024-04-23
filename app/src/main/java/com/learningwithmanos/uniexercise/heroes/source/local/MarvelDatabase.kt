@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.learningwithmanos.uniexercise.heroes.data.LHero
 
 
-@Database(entities = [LHero::class], version = 2, exportSchema = false)
+@Database(entities = [LHero::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class MarvelDatabase: RoomDatabase() {
     abstract fun marvelDao(): MarvelDao

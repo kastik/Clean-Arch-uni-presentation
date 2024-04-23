@@ -24,6 +24,8 @@ interface HeroRepository {
      */
     suspend fun getHeroes(): Flow<List<Hero>>
 
+    suspend fun getQuery(): Flow<List<Hero>>
+    suspend fun update(id: Int, description: String?)
     suspend fun setApiValues(apikey: String, privatekey: String)
 }
 
@@ -42,6 +44,15 @@ class HeroRepositoryImpl @Inject constructor(
                 heroLocalSource.getHeroes()
             }
         }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override suspend fun getQuery(): Flow<List<Hero>> {
+        return heroLocalSource.getQuery()
+    }
+
+    override suspend fun update(id: Int, description: String?) {
+        heroLocalSource.update(id, description)
     }
 
     override suspend fun setApiValues(apikey: String, privatekey: String) {

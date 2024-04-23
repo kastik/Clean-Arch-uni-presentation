@@ -1,23 +1,28 @@
 package com.learningwithmanos.uniexercise.heroes.usecase
 
+import androidx.lifecycle.viewModelScope
 import com.learningwithmanos.uniexercise.heroes.data.Hero
 import com.learningwithmanos.uniexercise.heroes.repo.HeroRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * UC used to retrieve a list of heroes sorted by the name of heroes
- */
-interface GetHeroesSortedByNameUC {
+interface QueryUC {
     suspend fun execute(): Flow<List<Hero>>
+
+    suspend fun update(id: Int, description: String?)
+
 }
 
-class GetHeroesSortedByNameUCImpl @Inject constructor(
+class QueryUSImpl @Inject constructor(
     private val heroRepository: HeroRepository
-): GetHeroesSortedByNameUC {
+) : QueryUC {
     override suspend fun execute(): Flow<List<Hero>> {
-        return heroRepository.getHeroes().map { list -> list.sortedBy { it.name } }
+        return heroRepository.getHeroes()
+    }
+
+    override suspend fun update(id: Int, description: String?) {
+            heroRepository.update(id, description)
     }
 
 }

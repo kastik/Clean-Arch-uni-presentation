@@ -14,6 +14,7 @@ interface HeroRemoteSource {
      * @return retrieves the a list of heroes from a certain endpoint
      */
     suspend fun getHeroes(): List<Hero>
+    suspend fun getDesc(id: Int): Hero
 }
 
 class HeroRemoteSourceImpl @Inject constructor(
@@ -34,12 +35,23 @@ class HeroRemoteSourceImpl @Inject constructor(
         return hero
     }
 
+    override suspend fun getDesc(id: Int): Hero {
+        val response: SingleRestResponse = restFramework.getHero(id)
+        val hero: Hero = if (response.code == 200) {
+            Hero(response.data.results.id, response.data.results.name, response.data.results.availableComics.availableComics, Converters().thumbnailToString(response.data.results.imageUrl), response.data.results.desc, )
+    } else {
+            Hero(0,"",0,"","")
+        }
+
+        return hero
+    }
+
     private fun RHero.mapToHero() = Hero (
         id = this.id,
         name = this.name,
         availableComics = this.availableComics.availableComics,
-        imageUrl = Converters().thumbnailToString(this.imageUrl)
-
+        imageUrl = Converters().thumbnailToString(this.imageUrl),
+        description = ""
     )
 
 }

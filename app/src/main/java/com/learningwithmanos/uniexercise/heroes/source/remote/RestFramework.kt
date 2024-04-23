@@ -1,6 +1,10 @@
 package com.learningwithmanos.uniexercise.heroes.source.remote
 
+import com.learningwithmanos.uniexercise.heroes.data.Comics
 import com.learningwithmanos.uniexercise.heroes.data.HeroData
+import com.learningwithmanos.uniexercise.heroes.data.SHero
+import com.learningwithmanos.uniexercise.heroes.data.SingleHeroData
+import com.learningwithmanos.uniexercise.heroes.data.Thumbnail
 import com.learningwithmanos.uniexercise.network.MarvelApi
 import com.learningwithmanos.uniexercise.network.MarvelApiClient
 import com.learningwithmanos.uniexercise.utils.MarvelRequestGenerator
@@ -11,6 +15,7 @@ import javax.inject.Inject
 private var client: MarvelApi = MarvelApiClient.api
 interface RestFramework{
     suspend fun getData(): RestApiResponse
+    suspend fun getHero(id: Int): SingleRestResponse
     suspend fun getParams(): Flow<MarvelRequestGenerator>
 }
 
@@ -28,6 +33,25 @@ class RestFrameworkImpl @Inject constructor(): RestFramework {
             )
         } catch (_: Exception) {
             response.data = HeroData(listOf())
+        }
+
+        return response
+    }
+
+    override suspend fun getHero(id: Int): SingleRestResponse {
+        var response = SingleRestResponse(0, "", SingleHeroData(SHero(0,"", Comics(0), Thumbnail("",""),"")))
+        try {
+            val params = MarvelRequestGenerator.createParams()
+            response = client.getCharacter(
+                id,
+                params.timestamp,
+                params.apiKey,
+                params.hash,
+                20,
+                0
+            )
+        } catch (_: Exception) {
+            response.data = SingleHeroData(SHero(0,"", Comics(0), Thumbnail("",""),""))
         }
 
         return response

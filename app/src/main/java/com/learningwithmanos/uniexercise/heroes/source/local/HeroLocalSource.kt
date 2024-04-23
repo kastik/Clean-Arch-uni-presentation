@@ -23,12 +23,15 @@ interface HeroLocalSource {
      */
     suspend fun storeHeroes(heroes: List<Hero>)
 
+    fun getQuery(): Flow<List<Hero>>
     /**
      * @return the list of heroes stored at the local storage
      */
     fun getHeroes(): Flow<List<Hero>>
 
     fun isEmpty(): Flow<Boolean>
+
+    suspend fun update(id: Int, description: String?)
 
     suspend fun setApiValues(apikey: String, privatekey: String)
 }
@@ -44,12 +47,24 @@ class HeroLocalSourceImpl @Inject constructor(private val marvelDao : MarvelDao)
 
     }
 
+    override fun getQuery(): Flow<List<Hero>> {
+        return marvelDao.getQuery().map { list ->
+               list.map {
+                   it.mapToHero()
+               }
+        }
+    }
+
     override fun getHeroes(): Flow<List<Hero>> {
         return marvelDao.getAllHeroes().map { list -> list.map { it.mapToHero() } }
     }
 
     override fun isEmpty(): Flow<Boolean> {
         return marvelDao.isEmpty()
+    }
+
+    override suspend fun update(id: Int, description: String?) {
+        marvelDao.update(id, description)
     }
 
     override suspend fun setApiValues(apikey: String, privatekey: String) {
@@ -65,7 +80,8 @@ class HeroLocalSourceImpl @Inject constructor(private val marvelDao : MarvelDao)
         id = this.id,
         name = this.name,
         availableComics = this.availableComics,
-        imageUrl = this.imageUrl
+        imageUrl = this.imageUrl,
+        description = this.description
     )
 
     private fun Hero.mapToLHero() = LHero (

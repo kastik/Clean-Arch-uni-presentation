@@ -19,6 +19,8 @@ interface MarvelDao {
     @Insert
     suspend fun insertCharacters(hero: List<LHero>)
 
+    @Query("SELECT * FROM MarvelTable WHERE marvel_desc IS NOT NULL")
+    fun getQuery(): Flow<List<LHero>>
     @Query("SELECT * FROM MarvelTable")
     fun getAllHeroes(): Flow<List<LHero>>
 
@@ -35,5 +37,5 @@ interface MarvelDao {
     suspend fun deleteAll()
 
     @Query("UPDATE MarvelTable SET marvel_desc = :description WHERE id =:id")
-    fun update(id: Int, description: String?)
+    suspend fun update(id: Int, description: String?)
 }
