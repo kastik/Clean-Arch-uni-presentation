@@ -37,15 +37,12 @@ class HeroRepositoryImpl @Inject constructor(
 ) : HeroRepository {
     @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun getHeroes(): Flow<List<Hero>>  {
-        Log.d("MyLog","Repo Exec")
         return heroLocalSource.isEmpty().flatMapLatest { isEmpty ->
             if (isEmpty) {
-                Log.d("MyLog","Repo Was empty")
                 val heroList = heroRemoteSource.getHeroes()
                 heroLocalSource.storeHeroes(heroList)
                 flowOf((heroList))
             } else {
-                Log.d("MyLog","Repo Was not")
                 heroLocalSource.getHeroes()
             }
         }
@@ -53,7 +50,6 @@ class HeroRepositoryImpl @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun getQuery(): Flow<List<Hero>> {
-        Log.d("MyLog","getQuery exec")
         return heroLocalSource.getQuery()
     }
 

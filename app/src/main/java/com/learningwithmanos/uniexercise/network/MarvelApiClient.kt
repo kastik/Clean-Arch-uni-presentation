@@ -14,11 +14,12 @@ object MarvelApiClient {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-    val client = OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .build()
+    val client = OkHttpClient.Builder().apply {
+        addInterceptor(loggingInterceptor)
+    }.build()
 
-    val api: MarvelApi by lazy { Retrofit.Builder()
+    val api: MarvelApi by lazy {
+        Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
         .client(client)

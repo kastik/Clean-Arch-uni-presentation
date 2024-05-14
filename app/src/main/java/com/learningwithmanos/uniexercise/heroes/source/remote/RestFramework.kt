@@ -14,22 +14,22 @@ import javax.inject.Inject
 
 private var client: MarvelApi = MarvelApiClient.api
 interface RestFramework{
-    suspend fun getData(): RestApiResponse
+    suspend fun getData(offset:Int): RestApiResponse
     suspend fun getHero(id: Int): SingleRestResponse
     suspend fun getParams(): Flow<MarvelRequestGenerator>
 }
 
 class RestFrameworkImpl @Inject constructor(): RestFramework {
-    override suspend fun getData(): RestApiResponse {
-        var response = RestApiResponse(0, "", HeroData(listOf()))
+    override suspend fun getData(offset:Int): RestApiResponse {
+        lateinit var response: RestApiResponse
         try {
             val params = MarvelRequestGenerator.createParams()
             response = client.getCharacters(
                 params.timestamp,
                 params.apiKey,
                 params.hash,
-                20,
-                0
+                100,
+                offset
             )
         } catch (_: Exception) {
             response.data = HeroData(listOf())
@@ -39,7 +39,7 @@ class RestFrameworkImpl @Inject constructor(): RestFramework {
     }
 
     override suspend fun getHero(id: Int): SingleRestResponse {
-        var response = SingleRestResponse(0, "", SingleHeroData(SHero(0,"", Comics(0), Thumbnail("",""),"")))
+        lateinit var response: SingleRestResponse
         try {
             val params = MarvelRequestGenerator.createParams()
             response = client.getCharacter(
@@ -51,7 +51,7 @@ class RestFrameworkImpl @Inject constructor(): RestFramework {
                 0
             )
         } catch (_: Exception) {
-            response.data = SingleHeroData(SHero(0,"", Comics(0), Thumbnail("",""),""))
+            //response.data = SingleHeroData(SHero(0,"", Comics(0), Thumbnail("",""),""))
         }
 
         return response

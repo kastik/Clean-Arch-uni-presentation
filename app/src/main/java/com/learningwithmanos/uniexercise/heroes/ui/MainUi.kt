@@ -1,9 +1,10 @@
 package com.learningwithmanos.uniexercise.heroes.ui
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -29,9 +30,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.learningwithmanos.uniexercise.heroes.data.Hero
 import com.learningwithmanos.uniexercise.heroes.ui.HeroScreen.HeroesScreen
 import com.learningwithmanos.uniexercise.heroes.ui.QueryScreen.QueryScreen
+import com.learningwithmanos.uniexercise.heroes.ui.QuizScreen.QuizScreen
 import com.learningwithmanos.uniexercise.heroes.ui.SettingsScreen.SettingsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,12 +41,16 @@ import com.learningwithmanos.uniexercise.heroes.ui.SettingsScreen.SettingsScreen
 fun MainUi(){
     val navHost = rememberNavController()
     val openTab = remember { mutableStateOf(AvailableScreens.HeroScreen) } //TODO Properly with flow or other wrapper
-    val showStuff = remember { derivedStateOf { openTab.value == AvailableScreens.Settings } }
+    val showStuff = remember { derivedStateOf { openTab.value == AvailableScreens.SettingsScreen } }
     Scaffold(
         modifier= Modifier.fillMaxSize(),
 
         bottomBar = {
-            AnimatedVisibility(openTab.value!=AvailableScreens.Settings) {
+            AnimatedVisibility(
+                visible = openTab.value!=AvailableScreens.SettingsScreen,
+                enter= expandVertically(),
+                exit=  shrinkVertically()
+            ) {
                 BottomAppBar {
                     NavigationBarItem(
                         selected = false,
@@ -67,7 +72,7 @@ fun MainUi(){
                         })
                     NavigationBarItem(
                         selected = false,
-                        onClick = { navHost.navigate(AvailableScreens.Todo.name) },
+                        onClick = { navHost.navigate(AvailableScreens.QuizScreen.name) },
                         icon = {
                             Column {
                                 Icon(Icons.Default.Call, "")
@@ -84,11 +89,11 @@ fun MainUi(){
         topBar = { CenterAlignedTopAppBar(title = { Text(text = "Hello") }, actions =
         {
             AnimatedVisibility(
-                visible = showStuff.value,
-                enter = slideInVertically(),
-                exit = slideOutVertically()
+                visible = !showStuff.value,
+                enter = scaleIn(),
+                exit = scaleOut()
                 ) {
-                IconButton(onClick = {navHost.navigate(AvailableScreens.Settings.name) }) {
+                IconButton(onClick = {navHost.navigate(AvailableScreens.SettingsScreen.name) }) {
                     Icon(Icons.Default.Settings,"")
                 }
             }
@@ -103,11 +108,12 @@ fun MainUi(){
                 openTab.value = AvailableScreens.QueryScreen
                 QueryScreen()
             }
-            composable(AvailableScreens.Todo.name){
-                //TODO
+            composable(AvailableScreens.QuizScreen.name){
+                openTab.value = AvailableScreens.QuizScreen
+                QuizScreen()
             }
-            composable(AvailableScreens.Settings.name){
-                openTab.value = AvailableScreens.Settings
+            composable(AvailableScreens.SettingsScreen.name){
+                openTab.value = AvailableScreens.SettingsScreen
                 SettingsScreen()
             }
 

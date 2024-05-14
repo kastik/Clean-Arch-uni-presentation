@@ -19,15 +19,22 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 @ExperimentalMaterial3Api
 fun SettingsScreen() {
-    val text = remember{ mutableStateOf("") }
+    val publicKey = remember{ mutableStateOf("") }
+    val privateKey = remember { mutableStateOf("") }
     Column(Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = "Enter Your API Keys", style = MaterialTheme.typography.headlineMedium)//TODO PADDING
 
 
-        OutlinedTextField(value =text.value , onValueChange = {})
-        OutlinedTextField(value =text.value , onValueChange = {})
+        OutlinedTextField(
+            value =publicKey.value ,
+            onValueChange = {publicKey.value = it},
+            label={Text("Private Key")})
+        OutlinedTextField(
+            value =privateKey.value ,
+            onValueChange = {privateKey.value = it},
+            label = {Text("Private Key")})
 
     }
 

@@ -1,5 +1,6 @@
 package com.learningwithmanos.uniexercise.heroes.source.remote
 
+import android.util.Log
 import com.learningwithmanos.uniexercise.heroes.data.Hero
 import com.learningwithmanos.uniexercise.heroes.data.RHero
 import com.learningwithmanos.uniexercise.heroes.source.local.Converters
@@ -13,7 +14,7 @@ interface HeroRemoteSource {
     /**
      * @return retrieves the a list of heroes from a certain endpoint
      */
-    suspend fun getHeroes(): List<Hero>
+    suspend fun getHeroes(offset:Int = 0): List<Hero>
     suspend fun getDesc(id: Int): Hero
 }
 
@@ -21,16 +22,40 @@ class HeroRemoteSourceImpl @Inject constructor(
     private val restFramework: RestFramework,
 ): HeroRemoteSource {
 
-    override suspend fun getHeroes(): List<Hero> {
-        val response: RestApiResponse = restFramework.getData()
+    override suspend fun getHeroes(offset: Int): List<Hero> {
+        val test = mutableListOf<RestApiResponse>()
+        val response: RestApiResponse = restFramework.getData(offset)
+        test.add(response)
+        var newOffset = response.offset
 
-        val hero: List<Hero> = if (response.code == 200) {
-            response.data.results.map {
+        Log.d("MyLog","total ${response.total}")
+        Log.d("MyLog","offset ${response.offset}")
+
+        while(response.total<newOffset){
+            Log.d("MyLog","Runned")
+            newOffset += 100
+            test.add(restFramework.getData(newOffset))
+        }
+
+        val heroa : List<Hero> =
+            test.map {
+            it.data.results.map{
                 it.mapToHero()
             }
-        } else {
-            listOf()
-        }
+        }.flatten()
+
+        return heroa
+
+        val hero: List<Hero> =
+            if (response.code == 200) {
+                response.data.results.map {
+                    it.mapToHero()
+                }
+            } else {
+                listOf()
+            }
+
+
 
         return hero
     }

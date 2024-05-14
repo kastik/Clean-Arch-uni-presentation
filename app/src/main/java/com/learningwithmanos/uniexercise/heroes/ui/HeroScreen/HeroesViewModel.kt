@@ -19,7 +19,6 @@ class HeroesViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-
             heroesStateFlow = getHeroesUC.execute().map { list -> list.map { it.mapHeroToHeroTileModel() }}
         }
     }
