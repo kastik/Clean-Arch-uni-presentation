@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learningwithmanos.uniexercise.AppPreferences
 import com.learningwithmanos.uniexercise.heroes.usecase.SettingsScreenUC
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -11,8 +12,10 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SettingsScreenVIewModel (
+@HiltViewModel
+class SettingsScreenVIewModel @Inject constructor(
     private val settingApi: SettingsScreenUC,
 ) : ViewModel() {
 

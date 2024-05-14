@@ -15,7 +15,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HeroesViewModel @Inject constructor(
     private val getHeroesUC: GetHeroesUC,
-    private val setDescriptionUC: setDescriptionUC
 ) : ViewModel() {
     var heroesStateFlow: Flow<List<HeroTileModel>> = flowOf(listOf());
 
@@ -26,11 +25,7 @@ class HeroesViewModel @Inject constructor(
     }
 
 
-    fun getHeroDescr(id: Int){
-        viewModelScope.launch {
-            setDescriptionUC.execute(id)
-        }
-    }
+
 
 }
 

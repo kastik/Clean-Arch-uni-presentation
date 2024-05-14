@@ -22,7 +22,6 @@ import com.learningwithmanos.uniexercise.heroes.ui.HeroesViewModel
 fun HeroesScreen(
     viewModel: HeroesViewModel = hiltViewModel()
 ) {
-
     val heroesList = viewModel.heroesStateFlow.collectAsState(initial = listOf())
     LazyColumn(
         modifier = Modifier.nestedScroll(
@@ -32,21 +31,11 @@ fun HeroesScreen(
     ) {
         items(heroesList.value.size) {
             Log.d("MyLog","Exec $it")
-            HeroCard(heroesList.value[it].title, heroesList.value[it].imageUrl, false) {viewModel.getHeroDescr(heroesList.value[it].id)}  //TODO Display List
+            HeroCard(
+                heroesList.value[it].title,
+                heroesList.value[it].imageUrl,
+                false,{})
         }
     }
 
 }
-
-/*@Composable
-fun ShowHeroes(heroes: List<HeroTileModel>) {
-    heroes.forEach {
-        Text(text = it.title)
-    }
-}*/
-
-/*@Preview
-@Composable
-fun paok(){
-    HeroCard(data = Hero(1,"Doctor Strange",1,"",""), show = false)
-}*/

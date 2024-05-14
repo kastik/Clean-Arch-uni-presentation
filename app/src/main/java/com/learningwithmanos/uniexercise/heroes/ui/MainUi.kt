@@ -42,6 +42,7 @@ fun MainUi(){
     val navHost = rememberNavController()
     val openTab = remember { mutableStateOf(AvailableScreens.HeroScreen) } //TODO Properly with flow or other wrapper
     val showStuff = remember { derivedStateOf { openTab.value == AvailableScreens.SettingsScreen } }
+
     Scaffold(
         modifier= Modifier.fillMaxSize(),
 

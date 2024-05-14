@@ -7,6 +7,7 @@ import com.learningwithmanos.uniexercise.heroes.ui.HeroTileModel
 import com.learningwithmanos.uniexercise.heroes.ui.mapHeroToHeroTileModel
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUC
 import com.learningwithmanos.uniexercise.heroes.usecase.QueryUC
+import com.learningwithmanos.uniexercise.heroes.usecase.setDescriptionUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -18,16 +19,19 @@ import javax.inject.Inject
 @HiltViewModel
 class QueryViewModel @Inject constructor(
 private val getQueryUC: QueryUC,
+private val setDescriptionUC: setDescriptionUC
 ) : ViewModel() {
     var heroesStateFlow: Flow<List<HeroTileModel>> = flowOf(listOf());
     init {
         viewModelScope.launch {
 
             heroesStateFlow = getQueryUC.execute().map { list -> list.map { it.mapHeroToHeroTileModel() }}
+        }
+    }
 
-            suspend fun setDesk(id: Int) {
-                getQueryUC.setDesc(id)
-            }
+    fun getHeroDescr(id: Int){
+        viewModelScope.launch {
+            setDescriptionUC.execute(id)
         }
     }
 

@@ -70,8 +70,7 @@ fun HeroCard(name: String, image: String, show: Boolean,onClick: () -> Unit ){ /
                 Modifier
                     .fillMaxHeight()
                     .fillMaxWidth()
-                    .clickable(enabled = true,onClick=onClick )
-                        ,
+                    .clickable(enabled = true,onClick=onClick ),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {

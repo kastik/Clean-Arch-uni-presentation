@@ -19,6 +19,7 @@ class GetHeroesUCImpl @Inject constructor(
 ) : GetHeroesUC {
     override suspend fun execute(): Flow<List<Hero>> {
         Log.d("MyLog","GetHeroesUCImpl EXEC")
+
         return heroRepository.getQuery()
     }
 }
