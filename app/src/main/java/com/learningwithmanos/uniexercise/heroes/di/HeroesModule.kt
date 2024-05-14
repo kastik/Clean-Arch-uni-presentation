@@ -34,6 +34,11 @@ interface HeroesModule {
         queryUCImpl: QueryUSImpl
     ): QueryUC
 
+    @Binds
+    fun bindsgetDescriptionUC(
+        getDescriptionUcImpl: getDescriptionUCImp
+    ): getDescriptionUC
+
     // Repository
 
     @Binds

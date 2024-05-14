@@ -19,7 +19,7 @@ interface MarvelDao {
     @Insert
     suspend fun insertCharacters(hero: List<LHero>)
 
-    @Query("SELECT * FROM MarvelTable WHERE marvel_desc IS NOT NULL")
+    @Query("SELECT * FROM MarvelTable WHERE marvel_desc IS NOT 'null'")
     fun getQuery(): Flow<List<LHero>>
     @Query("SELECT * FROM MarvelTable")
     fun getAllHeroes(): Flow<List<LHero>>

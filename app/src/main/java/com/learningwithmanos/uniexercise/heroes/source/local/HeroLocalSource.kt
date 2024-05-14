@@ -34,6 +34,8 @@ interface HeroLocalSource {
     suspend fun update(id: Int, description: String?)
 
     suspend fun setApiValues(apikey: String, privatekey: String)
+
+
 }
 
 class HeroLocalSourceImpl @Inject constructor(private val marvelDao : MarvelDao): HeroLocalSource {
@@ -89,7 +91,7 @@ class HeroLocalSourceImpl @Inject constructor(private val marvelDao : MarvelDao)
         name = this.name,
         availableComics = this.availableComics,
         imageUrl = this.imageUrl,
-        description = ""
+        description = "null"
     )
 
 }

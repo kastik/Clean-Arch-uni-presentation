@@ -37,15 +37,6 @@ class HeroRemoteSourceImpl @Inject constructor(
             test.add(restFramework.getData(newOffset))
         }
 
-        val heroa : List<Hero> =
-            test.map {
-            it.data.results.map{
-                it.mapToHero()
-            }
-        }.flatten()
-
-        return heroa
-
         val hero: List<Hero> =
             if (response.code == 200) {
                 response.data.results.map {
