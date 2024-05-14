@@ -33,8 +33,7 @@ interface HeroLocalSource {
 
     suspend fun update(id: Int, description: String?)
 
-    suspend fun setApiValues(apikey: String, privatekey: String)
-
+    suspend fun updateApi(apikey: String, privatekey: String)
 
 }
 
@@ -69,7 +68,7 @@ class HeroLocalSourceImpl @Inject constructor(private val marvelDao : MarvelDao)
         marvelDao.update(id, description)
     }
 
-    override suspend fun setApiValues(apikey: String, privatekey: String) {
+    override suspend fun updateApi(apikey: String, privatekey: String) {
         if (!(AppPreferences.apikey.equals(apikey)) || !(AppPreferences.privatekey.equals(privatekey))) {
             AppPreferences.apikey = apikey
             AppPreferences.privatekey = privatekey

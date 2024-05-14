@@ -27,7 +27,7 @@ interface HeroRepository {
 
     suspend fun getQuery(): Flow<List<Hero>>
     suspend fun update(id: Int, description: String?)
-    suspend fun setApiValues(apikey: String, privatekey: String)
+    suspend fun updateApi(apikey: String, privatekey: String)
     suspend fun setDesc(id: Int)
 }
 
@@ -57,8 +57,8 @@ class HeroRepositoryImpl @Inject constructor(
         heroLocalSource.update(id, description)
     }
 
-    override suspend fun setApiValues(apikey: String, privatekey: String) {
-        heroLocalSource.setApiValues(apikey, privatekey)
+    override suspend fun updateApi(apikey: String, privatekey: String) {
+        heroLocalSource.updateApi(apikey, privatekey)
     }
 
     override suspend fun setDesc(id: Int) {

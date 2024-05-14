@@ -12,6 +12,8 @@ import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUC
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUCImpl
 import com.learningwithmanos.uniexercise.heroes.usecase.QueryUC
 import com.learningwithmanos.uniexercise.heroes.usecase.QueryUSImpl
+import com.learningwithmanos.uniexercise.heroes.usecase.SettingsScreenUC
+import com.learningwithmanos.uniexercise.heroes.usecase.SettingsScreenUCImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -38,6 +40,11 @@ interface HeroesModule {
     fun bindsgetDescriptionUC(
         getDescriptionUcImpl: getDescriptionUCImp
     ): getDescriptionUC
+
+    @Binds
+    fun bindsSettingsScreenUC(
+        settingsScreenUCImpl: SettingsScreenUCImpl
+    ): SettingsScreenUC
 
     // Repository
 
