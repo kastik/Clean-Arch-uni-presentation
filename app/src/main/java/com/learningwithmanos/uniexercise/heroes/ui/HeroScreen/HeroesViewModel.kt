@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learningwithmanos.uniexercise.heroes.data.Hero
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUC
+import com.learningwithmanos.uniexercise.heroes.usecase.setDescriptionUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -14,6 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HeroesViewModel @Inject constructor(
     private val getHeroesUC: GetHeroesUC,
+    private val setDescriptionUC: setDescriptionUC
 ) : ViewModel() {
     var heroesStateFlow: Flow<List<HeroTileModel>> = flowOf(listOf());
 
@@ -23,16 +25,25 @@ class HeroesViewModel @Inject constructor(
         }
     }
 
+
+    fun getHeroDescr(id: Int){
+        viewModelScope.launch {
+            setDescriptionUC.execute(id)
+        }
+    }
+
 }
 
 data class HeroTileModel(
     val title: String,
     val imageUrl: String,
+    val id: Int
 )
 
 fun Hero.mapHeroToHeroTileModel(): HeroTileModel {
     return HeroTileModel(
         title = "$name, comics - $availableComics",
-        imageUrl = imageUrl
+        imageUrl = imageUrl,
+        id= id
     )
 }

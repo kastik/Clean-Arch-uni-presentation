@@ -6,19 +6,17 @@ import com.learningwithmanos.uniexercise.heroes.repo.HeroRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-/**
- * UC used to retrieve a list of heroes
- */
-interface GetHeroesUC {
-    suspend fun execute(): Flow<List<Hero>>
+
+interface setDescriptionUC {
+    suspend fun execute(id: Int)
 
 }
 
-class GetHeroesUCImpl @Inject constructor(
+class setDescriptionImpl @Inject constructor(
     private val heroRepository: HeroRepository
-) : GetHeroesUC {
-    override suspend fun execute(): Flow<List<Hero>> {
-        Log.d("MyLog","GetHeroesUCImpl EXEC")
-        return heroRepository.getQuery()
+) : setDescriptionUC {
+    override suspend fun execute(id: Int) {
+        Log.d("MyLog","setHeroesDescrUCImpl EXEC")
+        heroRepository.setDesc(id)
     }
 }

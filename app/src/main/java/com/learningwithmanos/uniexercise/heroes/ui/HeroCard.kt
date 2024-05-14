@@ -1,6 +1,7 @@
 package com.learningwithmanos.uniexercise.heroes.ui
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,7 +33,7 @@ import com.learningwithmanos.uniexercise.heroes.ui.QueryScreen.QueryViewModel
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun HeroCard(name: String, image: String, show: Boolean){ //TODO Change to hero data
+fun HeroCard(name: String, image: String, show: Boolean,onClick: () -> Unit ){ //TODO Change to hero data
     OutlinedCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
@@ -68,7 +69,9 @@ fun HeroCard(name: String, image: String, show: Boolean){ //TODO Change to hero 
             Column(
                 Modifier
                     .fillMaxHeight()
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .clickable(enabled = true,onClick=onClick )
+                        ,
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -88,9 +91,5 @@ fun HeroCard(name: String, image: String, show: Boolean){ //TODO Change to hero 
 
 
     }
-
-        //Onoma
-        //Description
-        //thumbnail
 
 }

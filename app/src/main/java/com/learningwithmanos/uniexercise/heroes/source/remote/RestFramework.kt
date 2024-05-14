@@ -28,7 +28,7 @@ class RestFrameworkImpl @Inject constructor(): RestFramework {
                 params.timestamp,
                 params.apiKey,
                 params.hash,
-                100,
+                20,
                 offset
             )
         } catch (_: Exception) {

@@ -31,19 +31,18 @@ private val getQueryUC: QueryUC,
         }
     }
 
-
-
-
 }
 
 data class HeroTileModel(
     val title: String,
     val imageUrl: String,
+    val id:Int
 )
 
 fun Hero.mapHeroToHeroTileModel(): HeroTileModel {
     return HeroTileModel(
         title = "$name, comics - $availableComics",
-        imageUrl = imageUrl
+        imageUrl = imageUrl,
+        id = id
     )
 }

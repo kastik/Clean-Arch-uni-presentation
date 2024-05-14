@@ -24,7 +24,7 @@ fun QueryScreen(
             ).nestedScrollConnection)
     ) {
         items(heroes.value.size){
-            HeroCard(heroes.value[it].title, heroes.value[it].imageUrl, show = false )
+            HeroCard(heroes.value[it].title, heroes.value[it].imageUrl, show = false, {})
         }
     }
 
