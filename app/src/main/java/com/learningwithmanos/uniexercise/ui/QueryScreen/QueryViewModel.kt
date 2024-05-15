@@ -1,4 +1,4 @@
-package com.learningwithmanos.uniexercise.heroes.ui.QueryScreen
+package com.learningwithmanos.uniexercise.ui.QueryScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

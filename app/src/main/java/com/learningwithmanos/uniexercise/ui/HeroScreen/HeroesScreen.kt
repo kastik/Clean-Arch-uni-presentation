@@ -1,4 +1,4 @@
-package com.learningwithmanos.uniexercise.heroes.ui.HeroScreen
+package com.learningwithmanos.uniexercise.ui.HeroScreen
 
 import android.util.Log
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,7 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.learningwithmanos.uniexercise.heroes.ui.HeroCard
+import com.learningwithmanos.uniexercise.ui.HeroCard
 import com.learningwithmanos.uniexercise.heroes.ui.HeroesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

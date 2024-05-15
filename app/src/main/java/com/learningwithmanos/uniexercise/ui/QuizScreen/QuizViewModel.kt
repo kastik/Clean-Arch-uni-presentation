@@ -1,4 +1,4 @@
-package com.learningwithmanos.uniexercise.heroes.ui.QuizScreen
+package com.learningwithmanos.uniexercise.ui.QuizScreen
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

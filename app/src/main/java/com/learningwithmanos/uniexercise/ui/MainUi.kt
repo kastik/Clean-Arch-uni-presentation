@@ -1,4 +1,4 @@
-package com.learningwithmanos.uniexercise.heroes.ui
+package com.learningwithmanos.uniexercise.ui
 
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
@@ -35,10 +35,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.learningwithmanos.uniexercise.heroes.ui.HeroScreen.HeroesScreen
-import com.learningwithmanos.uniexercise.heroes.ui.QueryScreen.QueryScreen
-import com.learningwithmanos.uniexercise.heroes.ui.QuizScreen.QuizScreen
-import com.learningwithmanos.uniexercise.heroes.ui.SettingsScreen.SettingsScreen
+import com.learningwithmanos.uniexercise.ui.HeroScreen.HeroesScreen
+import com.learningwithmanos.uniexercise.ui.QueryScreen.QueryScreen
+import com.learningwithmanos.uniexercise.ui.QuizScreen.QuizScreen
+import com.learningwithmanos.uniexercise.ui.SettingsScreen.SettingsScreen
+
+enum class AvailableScreens {
+    HeroScreen,QueryScreen,QuizScreen,SettingsScreen
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -111,13 +116,10 @@ fun MainUi() {
         ) {
             composable(AvailableScreens.HeroScreen.name) {
                 openTab.value = AvailableScreens.HeroScreen
-                Log.d("MyLog", "In HeroScreen")
                 HeroesScreen()
             }
             composable(AvailableScreens.QueryScreen.name) {
                 openTab.value = AvailableScreens.QueryScreen
-                Log.d("MyLog", "In Query")
-
                 QueryScreen(searchText)
             }
             composable(AvailableScreens.QuizScreen.name) {

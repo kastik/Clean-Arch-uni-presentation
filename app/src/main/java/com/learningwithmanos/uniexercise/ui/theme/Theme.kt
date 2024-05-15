@@ -1,4 +1,4 @@
-package com.learningwithmanos.uniexercise.theme
+package com.learningwithmanos.uniexercise.ui.theme
 
 import android.app.Activity
 import android.os.Build

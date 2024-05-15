@@ -1,4 +1,4 @@
-package com.learningwithmanos.uniexercise.network
+package com.learningwithmanos.uniexercise.heroes.network
 
 import com.learningwithmanos.uniexercise.heroes.source.remote.RestApiResponse
 import com.learningwithmanos.uniexercise.heroes.source.remote.SingleRestResponse

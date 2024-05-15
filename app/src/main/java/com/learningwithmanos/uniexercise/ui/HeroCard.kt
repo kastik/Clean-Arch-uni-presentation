@@ -1,4 +1,4 @@
-package com.learningwithmanos.uniexercise.heroes.ui
+package com.learningwithmanos.uniexercise.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -28,7 +28,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.learningwithmanos.uniexercise.heroes.data.Hero
-import com.learningwithmanos.uniexercise.heroes.ui.QueryScreen.QueryViewModel
+import com.learningwithmanos.uniexercise.ui.QueryScreen.QueryViewModel
 
 
 @OptIn(ExperimentalGlideComposeApi::class)

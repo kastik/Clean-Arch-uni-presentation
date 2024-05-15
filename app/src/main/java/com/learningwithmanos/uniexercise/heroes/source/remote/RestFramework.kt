@@ -6,8 +6,8 @@ import com.learningwithmanos.uniexercise.heroes.data.HeroData
 import com.learningwithmanos.uniexercise.heroes.data.SHero
 import com.learningwithmanos.uniexercise.heroes.data.SingleHeroData
 import com.learningwithmanos.uniexercise.heroes.data.Thumbnail
-import com.learningwithmanos.uniexercise.network.MarvelApi
-import com.learningwithmanos.uniexercise.network.MarvelApiClient
+import com.learningwithmanos.uniexercise.heroes.network.MarvelApi
+import com.learningwithmanos.uniexercise.heroes.network.MarvelApiClient
 import com.learningwithmanos.uniexercise.utils.MarvelRequestGenerator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
