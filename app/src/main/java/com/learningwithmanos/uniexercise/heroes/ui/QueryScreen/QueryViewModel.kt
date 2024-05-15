@@ -5,13 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.learningwithmanos.uniexercise.heroes.data.Hero
 import com.learningwithmanos.uniexercise.heroes.ui.HeroTileModel
 import com.learningwithmanos.uniexercise.heroes.ui.mapHeroToHeroTileModel
-import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUC
 import com.learningwithmanos.uniexercise.heroes.usecase.QueryUC
-import com.learningwithmanos.uniexercise.heroes.usecase.setDescriptionUC
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,34 +16,21 @@ import javax.inject.Inject
 @HiltViewModel
 class QueryViewModel @Inject constructor(
 private val getQueryUC: QueryUC,
-private val setDescriptionUC: setDescriptionUC
 ) : ViewModel() {
-    var heroesStateFlow: Flow<List<HeroTileModel>> = flowOf(listOf());
+    private val _heroesStateFlow = MutableStateFlow<List<Hero>>(emptyList())
+    val heroesStateFlow: StateFlow<List<Hero>> = _heroesStateFlow
+
     init {
         viewModelScope.launch {
-
-            heroesStateFlow = getQueryUC.execute().map { list -> list.map { it.mapHeroToHeroTileModel() }}
+            getQueryUC.execute().collect { list ->
+                _heroesStateFlow.value = list
+            }
         }
     }
 
-    fun getHeroDescr(id: Int){
+    fun storeHero(hero: Hero) {
         viewModelScope.launch {
-            setDescriptionUC.execute(id)
+            getQueryUC.storeLocal(hero)
         }
     }
-
-}
-
-data class HeroTileModel(
-    val title: String,
-    val imageUrl: String,
-    val id:Int
-)
-
-fun Hero.mapHeroToHeroTileModel(): HeroTileModel {
-    return HeroTileModel(
-        title = "$name, comics - $availableComics",
-        imageUrl = imageUrl,
-        id = id
-    )
 }

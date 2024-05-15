@@ -1,5 +1,6 @@
 package com.learningwithmanos.uniexercise.heroes.ui
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.scaleIn
@@ -7,11 +8,13 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -20,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -27,6 +31,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -38,19 +43,20 @@ import com.learningwithmanos.uniexercise.heroes.ui.SettingsScreen.SettingsScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun MainUi(){
+fun MainUi() {
     val navHost = rememberNavController()
-    val openTab = remember { mutableStateOf(AvailableScreens.HeroScreen) } //TODO Properly with flow or other wrapper
-    val showStuff = remember { derivedStateOf { openTab.value == AvailableScreens.SettingsScreen } }
+    val openTab =
+        remember { mutableStateOf(AvailableScreens.HeroScreen) } //TODO Properly with flow or other wrapper
+    val searchText = remember { mutableStateOf("") }
+    val isSearchingon = remember { mutableStateOf(false) }
 
     Scaffold(
-        modifier= Modifier.fillMaxSize(),
-
+        modifier = Modifier.fillMaxSize(),
         bottomBar = {
             AnimatedVisibility(
-                visible = openTab.value!=AvailableScreens.SettingsScreen,
-                enter= expandVertically(),
-                exit=  shrinkVertically()
+                visible = openTab.value != AvailableScreens.SettingsScreen,
+                enter = expandVertically(),
+                exit = shrinkVertically()
             ) {
                 BottomAppBar {
                     NavigationBarItem(
@@ -81,39 +87,44 @@ fun MainUi(){
                             }
                         })
                 }
+            }
+        },
+        topBar = {
+            SearchBar(
+                query = searchText.value,//text showed on SearchBar
+                active = isSearchingon.value,
+                onActiveChange = {},
+                onQueryChange = { searchText.value = it },
+                onSearch = {},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
 
             }
-
-
-                    }
-        ,
-        topBar = { CenterAlignedTopAppBar(title = { Text(text = "Hello") }, actions =
-        {
-            AnimatedVisibility(
-                visible = !showStuff.value,
-                enter = scaleIn(),
-                exit = scaleOut()
-                ) {
-                IconButton(onClick = {navHost.navigate(AvailableScreens.SettingsScreen.name) }) {
-                    Icon(Icons.Default.Settings,"")
-                }
-            }
-        }) }){ paddingValues ->
-
-        NavHost(navController = navHost, startDestination = AvailableScreens.HeroScreen.name, modifier = Modifier.padding(paddingValues)){
-            composable(AvailableScreens.HeroScreen.name){
+        })
+    { paddingValues ->
+        NavHost(
+            navController = navHost,
+            startDestination = AvailableScreens.HeroScreen.name,
+            modifier = Modifier.padding(paddingValues)
+        ) {
+            composable(AvailableScreens.HeroScreen.name) {
                 openTab.value = AvailableScreens.HeroScreen
+                Log.d("MyLog", "In HeroScreen")
                 HeroesScreen()
             }
-            composable(AvailableScreens.QueryScreen.name){
+            composable(AvailableScreens.QueryScreen.name) {
                 openTab.value = AvailableScreens.QueryScreen
-                QueryScreen()
+                Log.d("MyLog", "In Query")
+
+                QueryScreen(searchText)
             }
-            composable(AvailableScreens.QuizScreen.name){
+            composable(AvailableScreens.QuizScreen.name) {
                 openTab.value = AvailableScreens.QuizScreen
                 QuizScreen()
             }
-            composable(AvailableScreens.SettingsScreen.name){
+            composable(AvailableScreens.SettingsScreen.name) {
                 openTab.value = AvailableScreens.SettingsScreen
                 SettingsScreen()
             }
@@ -121,7 +132,25 @@ fun MainUi(){
         }
 
     }
-
-
-
 }
+
+
+/*
+
+AnimatedVisibility(
+                visible = openTab.value != AvailableScreens.SettingsScreen,
+                enter = scaleIn(),
+                exit = scaleOut()
+                ) {
+                IconButton(onClick = {navHost.navigate(AvailableScreens.SettingsScreen.name) }) {
+                    Icon(Icons.Default.Settings,"")
+                }
+            }
+            AnimatedVisibility(visible = openTab.value == AvailableScreens.QueryScreen) {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(Icons.Default.Search,"")
+                }
+            }
+
+
+ */

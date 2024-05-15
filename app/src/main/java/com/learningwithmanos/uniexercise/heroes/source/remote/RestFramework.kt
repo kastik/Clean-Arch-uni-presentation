@@ -1,5 +1,6 @@
 package com.learningwithmanos.uniexercise.heroes.source.remote
 
+import android.util.Log
 import com.learningwithmanos.uniexercise.heroes.data.Comics
 import com.learningwithmanos.uniexercise.heroes.data.HeroData
 import com.learningwithmanos.uniexercise.heroes.data.SHero
@@ -14,13 +15,13 @@ import javax.inject.Inject
 
 private var client: MarvelApi = MarvelApiClient.api
 interface RestFramework{
-    suspend fun getData(offset:Int): RestApiResponse
+    suspend fun getData(name:String?): RestApiResponse
     suspend fun getHero(id: Int): SingleRestResponse
     suspend fun getParams(): Flow<MarvelRequestGenerator>
 }
 
 class RestFrameworkImpl @Inject constructor(): RestFramework {
-    override suspend fun getData(offset:Int): RestApiResponse {
+    override suspend fun getData(name: String?): RestApiResponse {
         lateinit var response: RestApiResponse
         try {
             val params = MarvelRequestGenerator.createParams()
@@ -29,7 +30,8 @@ class RestFrameworkImpl @Inject constructor(): RestFramework {
                 params.apiKey,
                 params.hash,
                 20,
-                offset
+                0,
+                name
             )
         } catch (_: Exception) {
             response.data = HeroData(listOf())
@@ -37,6 +39,7 @@ class RestFrameworkImpl @Inject constructor(): RestFramework {
 
         return response
     }
+
 
     override suspend fun getHero(id: Int): SingleRestResponse {
         lateinit var response: SingleRestResponse
@@ -47,13 +50,15 @@ class RestFrameworkImpl @Inject constructor(): RestFramework {
                 params.timestamp,
                 params.apiKey,
                 params.hash,
-                20,
+                1,
                 0
             )
-        } catch (_: Exception) {
-            //response.data = SingleHeroData(SHero(0,"", Comics(0), Thumbnail("",""),""))
+        } catch (exception: Exception) {
+            Log.d("MyLog","Exception ${exception.cause}")
+            response.data = SingleHeroData(SHero(0,"", Comics(0), Thumbnail("",""),""))
         }
 
+        Log.d("MyLog","code response.code")
         return response
     }
 

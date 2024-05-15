@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learningwithmanos.uniexercise.heroes.data.Hero
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUC
-import com.learningwithmanos.uniexercise.heroes.usecase.setDescriptionUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -23,9 +22,6 @@ class HeroesViewModel @Inject constructor(
             heroesStateFlow = getHeroesUC.execute().map { list -> list.map { it.mapHeroToHeroTileModel() }}
         }
     }
-
-
-
 
 }
 

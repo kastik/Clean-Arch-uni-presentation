@@ -23,14 +23,8 @@ fun HeroesScreen(
     viewModel: HeroesViewModel = hiltViewModel()
 ) {
     val heroesList = viewModel.heroesStateFlow.collectAsState(initial = listOf())
-    LazyColumn(
-        modifier = Modifier.nestedScroll(
-            TopAppBarDefaults.pinnedScrollBehavior(
-                rememberTopAppBarState()
-            ).nestedScrollConnection)
-    ) {
+    LazyColumn() {
         items(heroesList.value.size) {
-            Log.d("MyLog","Exec $it")
             HeroCard(
                 heroesList.value[it].title,
                 heroesList.value[it].imageUrl,

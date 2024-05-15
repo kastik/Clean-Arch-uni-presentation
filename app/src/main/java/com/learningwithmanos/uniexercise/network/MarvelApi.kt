@@ -14,7 +14,8 @@ interface MarvelApi {
         @Query("apikey") apiKey: String?,
         @Query("hash") hash: String?,
         @Query("limit") limit: Int?,
-        @Query("offset") offset: Int?
+        @Query("offset") offset: Int?,
+        @Query("nameStartsWith") nameStartsWith: String?
     ): RestApiResponse
 
     @GET("characters/{id}")
