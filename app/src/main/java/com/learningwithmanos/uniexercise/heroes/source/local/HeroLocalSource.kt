@@ -34,12 +34,12 @@ interface HeroLocalSource {
 class HeroLocalSourceImpl @Inject constructor(private val marvelDao : MarvelDao): HeroLocalSource {
 
     override suspend fun storeHero(hero: Hero) {
-        marvelDao.insertCharacter(hero.mapToLHero())
+        marvelDao.insertCharacter(hero)
     }
 
 
     override fun getHeroes(): Flow<List<Hero>> {
-        return marvelDao.getAllHeroes().map { list -> list.map { it.mapToHero() } }
+        return marvelDao.getAllHeroes()
     }
 
 
@@ -51,21 +51,5 @@ class HeroLocalSourceImpl @Inject constructor(private val marvelDao : MarvelDao)
             Log.d("Dispacher RUN", "setApi: local db deleted API: $apikey Private: $privatekey")
         }
     }
-
-    private fun Hero.mapToHero() = Hero (
-        id = this.id,
-        name = this.name,
-        availableComics = this.availableComics,
-        imageUrl = this.imageUrl,
-        description = this.description
-    )
-
-    private fun Hero.mapToLHero() = Hero (
-        id = this.id,
-        name = this.name,
-        availableComics = this.availableComics,
-        imageUrl = this.imageUrl,
-        description = "null"
-    )
 
 }
