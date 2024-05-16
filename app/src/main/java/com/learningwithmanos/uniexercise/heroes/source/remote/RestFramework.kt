@@ -2,7 +2,6 @@ package com.learningwithmanos.uniexercise.heroes.source.remote
 
 import android.util.Log
 import com.learningwithmanos.uniexercise.heroes.data.Comics
-import com.learningwithmanos.uniexercise.heroes.data.HeroData
 import com.learningwithmanos.uniexercise.heroes.data.SHero
 import com.learningwithmanos.uniexercise.heroes.data.SingleHeroData
 import com.learningwithmanos.uniexercise.heroes.data.Thumbnail
@@ -22,22 +21,15 @@ interface RestFramework{
 
 class RestFrameworkImpl @Inject constructor(): RestFramework {
     override suspend fun getData(name: String?): RestApiResponse {
-        lateinit var response: RestApiResponse
-        try {
-            val params = MarvelRequestGenerator.createParams()
-            response = client.getCharacters(
-                params.timestamp,
-                params.apiKey,
-                params.hash,
-                20,
-                0,
-                name
-            )
-        } catch (_: Exception) {
-            response.data = HeroData(listOf())
-        }
-
-        return response
+        val params = MarvelRequestGenerator.createParams()
+        return client.getCharacters(
+            params.timestamp,
+            params.apiKey,
+            params.hash,
+            20,
+            0,
+            name //TODO When name=="" crashes
+        )
     }
 
 

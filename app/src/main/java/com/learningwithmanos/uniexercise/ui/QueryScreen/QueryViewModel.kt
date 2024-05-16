@@ -1,5 +1,6 @@
 package com.learningwithmanos.uniexercise.ui.QueryScreen
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learningwithmanos.uniexercise.heroes.data.Hero
@@ -20,9 +21,10 @@ private val getQueryUC: QueryUC,
     private val _heroesStateFlow = MutableStateFlow<List<Hero>>(emptyList())
     val heroesStateFlow: StateFlow<List<Hero>> = _heroesStateFlow
 
-    init {
+
+    fun executeQuery(searchText: String?) {
         viewModelScope.launch {
-            getQueryUC.execute().collect { list ->
+            getQueryUC.execute(searchText).collect { list ->
                 _heroesStateFlow.value = list
             }
         }

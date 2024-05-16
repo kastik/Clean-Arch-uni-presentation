@@ -50,9 +50,8 @@ enum class AvailableScreens {
 @Preview
 fun MainUi() {
     val navHost = rememberNavController()
-    val openTab =
-        remember { mutableStateOf(AvailableScreens.HeroScreen) } //TODO Properly with flow or other wrapper
-    val searchText = remember { mutableStateOf("") }
+    val openTab = remember { mutableStateOf(AvailableScreens.HeroScreen) } //TODO Properly with flow or other wrapper
+    val searchText = remember { mutableStateOf<String?>(null) }
     val isSearchingon = remember { mutableStateOf(false) }
 
     Scaffold(
@@ -96,7 +95,7 @@ fun MainUi() {
         },
         topBar = {
             SearchBar(
-                query = searchText.value,//text showed on SearchBar
+                query = searchText.value ?: "Search",//text showed on SearchBar
                 active = isSearchingon.value,
                 onActiveChange = {},
                 onQueryChange = { searchText.value = it },
