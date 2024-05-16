@@ -28,7 +28,7 @@ fun HeroesScreen(
             HeroCard(
                 heroesList.value[it].title,
                 heroesList.value[it].imageUrl,
-                false,{})
+                false,false,{},{})
         }
     }
 

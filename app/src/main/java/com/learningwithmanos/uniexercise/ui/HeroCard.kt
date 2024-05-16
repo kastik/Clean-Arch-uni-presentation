@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -23,17 +22,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
-import com.learningwithmanos.uniexercise.heroes.data.Hero
-import com.learningwithmanos.uniexercise.ui.QueryScreen.QueryViewModel
 
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun HeroCard(name: String, image: String, show: Boolean,onClick: () -> Unit ){ //TODO Change to hero data
+fun HeroCard(
+    name: String, image: String,
+    showQueryButton: Boolean,
+    isInQueryScreen: Boolean,
+    action1: () -> Unit, //In HeroScreen calls viewdetails,in query calls download
+    query: () -> Unit){ //TODO Change to hero data
     OutlinedCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
@@ -42,6 +43,7 @@ fun HeroCard(name: String, image: String, show: Boolean,onClick: () -> Unit ){ /
         modifier = Modifier
             .height(100.dp)
             .fillMaxWidth()
+            .clickable { if(!isInQueryScreen){action1()}}
     ){
         Row(Modifier.fillMaxWidth()) {
             Column(
@@ -66,29 +68,29 @@ fun HeroCard(name: String, image: String, show: Boolean,onClick: () -> Unit ){ /
                 Text(text = name, style = MaterialTheme.typography.headlineSmall)
                 //Text(text = data.availableComics.toString())
             }
+            if (isInQueryScreen){
             Column(
                 Modifier
                     .fillMaxHeight()
-                    .fillMaxWidth()
-                    .clickable(enabled = true,onClick=onClick ),
+                    .fillMaxWidth(),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.clickable(onClick=action1 )) {
                     Icon(Icons.Default.Download, contentDescription = "")
                     Text(text = "Download")
                 }
-                if(show){
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            }
+                if(showQueryButton){
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.clickable(onClick=query )) {
                     Icon(Icons.Default.Search, contentDescription = "")
                     Text(text = "Query")
                 }
                 }
             }
-
         }
-
-
-
     }
-
 }

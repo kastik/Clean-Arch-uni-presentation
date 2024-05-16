@@ -1,9 +1,6 @@
 package com.learningwithmanos.uniexercise.heroes.source.remote
 
-import android.util.Log
 import com.learningwithmanos.uniexercise.heroes.data.Hero
-import com.learningwithmanos.uniexercise.heroes.data.RHero
-import com.learningwithmanos.uniexercise.heroes.source.local.Converters
 import javax.inject.Inject
 
 /**
@@ -28,7 +25,7 @@ class HeroRemoteSourceImpl @Inject constructor(
         val hero: List<Hero> =
             if (response.code == 200) {
                 response.data.results.map {
-                    it.mapToHero()
+                    it.toHero()
                 }
             } else {
                 listOf()
@@ -38,14 +35,5 @@ class HeroRemoteSourceImpl @Inject constructor(
 
         return hero
     }
-
-    private fun RHero.mapToHero() = Hero (
-        id = this.id,
-        name = this.name,
-        availableComics = this.availableComics.availableComics,
-        imageUrl = Converters().thumbnailToString(this.imageUrl),
-        description = ""
-    )
-
 }
 

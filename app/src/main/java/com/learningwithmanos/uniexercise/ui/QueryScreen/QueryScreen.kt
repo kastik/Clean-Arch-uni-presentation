@@ -12,7 +12,7 @@ import com.learningwithmanos.uniexercise.ui.HeroCard
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QueryScreen(
-    searchText: MutableState<String?>,
+    searchText: MutableState<String>,
     viewModel: QueryViewModel = hiltViewModel()
 ){
     val heroes = viewModel.heroesStateFlow.collectAsState(initial = emptyList()) //GET INIT HEROES
@@ -27,9 +27,7 @@ fun QueryScreen(
 
     LazyColumn{
         items(heroes.value.size){
-            HeroCard(heroes.value[it].name, heroes.value[it].imageUrl, show = false) {
-                viewModel.storeHero(heroes.value[it])
-            }
+            HeroCard(heroes.value[it].name, heroes.value[it].imageUrl, showQueryButton = false,true,{viewModel.storeHero(heroes.value[it])},{})
         }
     }
 
