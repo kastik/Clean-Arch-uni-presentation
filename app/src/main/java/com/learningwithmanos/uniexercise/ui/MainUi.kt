@@ -11,6 +11,7 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,7 @@ import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Task
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -36,6 +38,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -80,37 +83,28 @@ fun MainUi() {
                     modifier = Modifier.animateContentSize()
                 ) {
                     NavigationBarItem(
-                        selected = false,
+                        selected = currentRoute == AvailableScreens.HeroScreen.name,
+                        label = { Text(text = "Heroes") },
                         onClick = {
                             navigate(AvailableScreens.HeroScreen)
                         },
-                        icon = {
-                            Column {
-                                Icon(Icons.Default.AccountBox, "")
-                                Text(text = "Heroes")
-                            }
+                        icon = { Icon(Icons.Default.AccountBox, "")
                         })
                     NavigationBarItem(
-                        selected = false,
+                        selected = currentRoute == AvailableScreens.QueryScreen.name,
+                        label = { Text(text = "Query") },
                         onClick = {
                             navigate(AvailableScreens.QueryScreen)
                         },
-                        icon = {
-                            Column {
-                                Icon(Icons.Default.Close, "")
-                                Text(text = "Query")
-                            }
+                        icon = { Icon(Icons.Default.Search, "")
                         })
                     NavigationBarItem(
-                        selected = false,
+                        selected = currentRoute == AvailableScreens.QuizScreen.name,
+                        label = { Text(text = "Quiz") },
                         onClick = {
                             navigate(AvailableScreens.QuizScreen)
-                        },
-                        icon = {
-                            Column {
-                                Icon(Icons.Default.Call, "")
-                                Text(text = "Quiz")
-                            }
+                                  },
+                        icon = { Icon(Icons.Default.Task, "")
                         })
                 }
             }
