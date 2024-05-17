@@ -77,7 +77,8 @@ fun HeroDetailsDialog(
                     "This hero has no description"
                 }
             },
-                modifier = Modifier.padding(10.dp))
+                modifier = Modifier.padding(10.dp),
+                style = MaterialTheme.typography.bodyLarge)
 
         }
     }

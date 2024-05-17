@@ -7,8 +7,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -34,7 +32,7 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -43,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.learningwithmanos.uniexercise.ui.HeroScreen.HeroesScreen
 import com.learningwithmanos.uniexercise.ui.QueryScreen.QueryScreen
@@ -59,23 +58,17 @@ enum class AvailableScreens {
 @Preview
 fun MainUi() {
     val navHost = rememberNavController()
-    val currentScreen =
-        rememberSaveable { mutableStateOf(AvailableScreens.HeroScreen) } //TODO Properly with flow or other wrapper
     val searchText = rememberSaveable { mutableStateOf("") }
     val isSearching = remember { mutableStateOf(false) }
-
-
-    LaunchedEffect(currentScreen.value) {
-        navHost.navigate(currentScreen.value.name) {
-            launchSingleTop = true
-        }
-    }
+    val navigate = { screen:AvailableScreens -> navHost.navigate(screen.name){launchSingleTop = true} }
+    val navBackStackEntry by navHost.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             AnimatedVisibility(
-                visible = currentScreen.value != AvailableScreens.SettingsScreen,
+                visible = currentRoute != AvailableScreens.SettingsScreen.name,
                 enter = expandVertically(
                     tween(400)
                 ),
@@ -89,9 +82,7 @@ fun MainUi() {
                     NavigationBarItem(
                         selected = false,
                         onClick = {
-                            navHost.navigate(AvailableScreens.HeroScreen.name) {
-                                launchSingleTop = true
-                            }
+                            navigate(AvailableScreens.HeroScreen)
                         },
                         icon = {
                             Column {
@@ -102,9 +93,7 @@ fun MainUi() {
                     NavigationBarItem(
                         selected = false,
                         onClick = {
-                            navHost.navigate(AvailableScreens.QueryScreen.name) {
-                                launchSingleTop = true
-                            }
+                            navigate(AvailableScreens.QueryScreen)
                         },
                         icon = {
                             Column {
@@ -115,9 +104,7 @@ fun MainUi() {
                     NavigationBarItem(
                         selected = false,
                         onClick = {
-                            navHost.navigate(AvailableScreens.QuizScreen.name) {
-                                launchSingleTop = true
-                            }
+                            navigate(AvailableScreens.QuizScreen)
                         },
                         icon = {
                             Column {
@@ -130,16 +117,15 @@ fun MainUi() {
         },
         topBar = {
             AnimatedContent(
-                targetState = currentScreen.value,
+                targetState = currentRoute,
                 transitionSpec = {
                     slideInVertically(animationSpec = tween(400)) togetherWith slideOutVertically(
                         animationSpec = tween(400)
                     )
                 }) { targetState ->
-                when (targetState) {
-                    AvailableScreens.QueryScreen -> {
+                if (targetState == AvailableScreens.QueryScreen.name) {
                         SearchBar(
-                            enabled = currentScreen.value == AvailableScreens.QueryScreen,
+                            enabled = currentRoute == AvailableScreens.QueryScreen.name,
                             query = searchText.value,//text showed on SearchBar
                             active = isSearching.value,
                             onActiveChange = {},
@@ -147,25 +133,16 @@ fun MainUi() {
                             onSearch = {},
                             trailingIcon = {
                                 Row {
-                                    AnimatedVisibility(
-                                        visible = currentScreen.value != AvailableScreens.SettingsScreen,
-                                        enter = scaleIn(),
-                                        exit = scaleOut()
-                                    ) {
-                                        IconButton(onClick = {
-                                            navHost.navigate(AvailableScreens.SettingsScreen.name) {
-                                                launchSingleTop = true
-                                            }
-                                        }) {
-                                            Icon(Icons.Default.Settings, "")
-                                        }
+                                    IconButton(onClick = {
+                                        navigate(AvailableScreens.SettingsScreen)
+                                    }) {
+                                        Icon(Icons.Default.Settings, "")
                                     }
-                                    AnimatedVisibility(visible = currentScreen.value == AvailableScreens.QueryScreen) {
+                                    AnimatedVisibility(visible = currentRoute == AvailableScreens.QueryScreen.toString()) {
                                         IconButton(onClick = { /*TODO*/ }) {
                                             Icon(Icons.Default.Search, "")
                                         }
                                     }
-
                                 }
                             },
                             modifier = Modifier
@@ -173,17 +150,13 @@ fun MainUi() {
                                 .padding(16.dp)
                         ){}
                     }
-
-                    else -> {
+                    else{
                         TopAppBar(
-                            title = { Text(text = currentScreen.value.name) },
-                            modifier = Modifier.animateContentSize(),
+                            title = { Text(text = currentRoute.toString()) },
                             actions = {
                                 IconButton(
                                     onClick = {
-                                        navHost.navigate(AvailableScreens.SettingsScreen.name) {
-                                            launchSingleTop = true
-                                        }
+                                        navigate(AvailableScreens.SettingsScreen)
                                     })
                                 {
                                     Icon(Icons.Default.Settings, "")
@@ -191,13 +164,8 @@ fun MainUi() {
 
                             }
                         )
-
-
                     }
-
                 }
-
-            }
         })
     { paddingValues ->
         NavHost(
@@ -208,18 +176,14 @@ fun MainUi() {
             composable(
                 AvailableScreens.HeroScreen.name,
             ) {
-                currentScreen.value = AvailableScreens.HeroScreen
                 HeroesScreen()
             }
             composable(AvailableScreens.QueryScreen.name) {
-                currentScreen.value = AvailableScreens.QueryScreen
                 QueryScreen(searchText)
             }
             composable(AvailableScreens.QuizScreen.name) {
-                currentScreen.value = AvailableScreens.QuizScreen
                 QuizScreen()
             }
-            //TODO These anim feel weird/buggy
             composable(
                 AvailableScreens.SettingsScreen.name,
                 enterTransition = {
@@ -235,12 +199,9 @@ fun MainUi() {
                     )
                 },
             ) {
-                currentScreen.value = AvailableScreens.SettingsScreen
-
                 SettingsScreen({ navHost.popBackStack() })
             }
 
         }
-
     }
 }
