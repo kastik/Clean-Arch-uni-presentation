@@ -1,6 +1,7 @@
 package com.learningwithmanos.uniexercise.ui.SettingsScreen
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.learningwithmanos.uniexercise.ui.AvailableScreens
@@ -41,22 +43,9 @@ fun SettingsScreen(
     val publicKey: String = vIewModel.apiKeyStateFlow.collectAsState().value
     val privateKey: String = vIewModel.privateKeyStateFlow.collectAsState().value
     val isButtonEnabled: Boolean = vIewModel.isButtonEnabledStateFlow.collectAsState().value
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Settings") },
-                navigationIcon = {
-                    IconButton(onClick = goBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "")
-                    }
-                }) //TODO SHOULD NOT BE STATIC BUT wt
 
-
-
-        }
-    ) {pad  ->
-        Column(
-            Modifier.fillMaxSize().padding(pad),
+    Column(
+            Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -108,5 +97,3 @@ fun SettingsScreen(
 
         }
     }
-
-}
