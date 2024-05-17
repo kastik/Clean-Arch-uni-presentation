@@ -38,7 +38,6 @@ data class RHero(
         var desc: String
 ){
         fun toHero(): Hero {
-                Log.d("MyLog","${imageUrl.path.replace("http", "https")}.${imageUrl.ext}")
                 return Hero(
                         id = this.id,
                         name = this.name,

@@ -6,7 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "MarvelTable")
 data class Hero(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
+    @ColumnInfo(name = "hero_id")
     var id: Int,
 
     @ColumnInfo(name = "marvel_name")

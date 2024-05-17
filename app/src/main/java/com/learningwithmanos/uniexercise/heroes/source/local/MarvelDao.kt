@@ -15,8 +15,11 @@ interface MarvelDao {
     @Query("SELECT * FROM MarvelTable")
     fun getAllHeroes(): Flow<List<Hero>>
 
-    @Query("SELECT * FROM MarvelTable WHERE id =(:heroId)")
+    @Query("SELECT * FROM MarvelTable WHERE hero_id=:heroId")
     fun getHeroById(heroId: Int): Flow<Hero>
+
+    @Query("SELECT EXISTS (SELECT * FROM MarvelTable WHERE hero_id=:heroId)")
+    suspend fun checkIfHeroExists(heroId: Int): Boolean
 
     @Query("SELECT (SELECT COUNT(*) FROM MarvelTable) == 0")
     fun isEmpty(): Flow<Boolean>

@@ -4,6 +4,7 @@ import android.util.Log
 import com.learningwithmanos.uniexercise.AppPreferences
 import com.learningwithmanos.uniexercise.heroes.data.Hero
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -34,10 +35,10 @@ interface HeroLocalSource {
 class HeroLocalSourceImpl @Inject constructor(private val marvelDao : MarvelDao): HeroLocalSource {
 
     override suspend fun storeHero(hero: Hero) {
-        marvelDao.insertCharacter(hero)
+        if (!marvelDao.checkIfHeroExists(hero.id)) {
+            marvelDao.insertCharacter(hero)
+        }
     }
-
-
     override fun getHeroes(): Flow<List<Hero>> {
         return marvelDao.getAllHeroes()
     }
