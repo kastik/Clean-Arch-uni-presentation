@@ -25,5 +25,4 @@ object MarvelApiClient {
         .client(client)
         .build()
         .create(MarvelApi::class.java) }
-
     }

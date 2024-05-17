@@ -4,8 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learningwithmanos.uniexercise.heroes.data.Hero
-import com.learningwithmanos.uniexercise.heroes.ui.HeroTileModel
-import com.learningwithmanos.uniexercise.heroes.ui.mapHeroToHeroTileModel
 import com.learningwithmanos.uniexercise.heroes.usecase.QueryUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

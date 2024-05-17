@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
@@ -122,8 +121,8 @@ fun MainUi() {
                 )
             ) {
                 SearchBar(
-                    enabled = false,
-                    query = searchText.value ?: "Search",//text showed on SearchBar
+                    enabled = true,
+                    query = searchText.value,//text showed on SearchBar
                     active = isSearchingon.value,
                     onActiveChange = {},
                     onQueryChange = { searchText.value = it },
@@ -163,7 +162,8 @@ fun MainUi() {
             modifier = Modifier.padding(paddingValues),
         ) {
             composable(
-                AvailableScreens.HeroScreen.name,) {
+                AvailableScreens.HeroScreen.name,
+            ) {
                 openTab.value = AvailableScreens.HeroScreen
                 HeroesScreen()
             }
@@ -182,27 +182,21 @@ fun MainUi() {
                     slideIntoContainer(
                         AnimatedContentTransitionScope.SlideDirection.Up,
                         animationSpec = tween(800)
-                    )},
+                    )
+                },
                 exitTransition = {
                     slideOutOfContainer(
                         AnimatedContentTransitionScope.SlideDirection.Down,
                         animationSpec = tween(800)
-                    )},
-                ) {
+                    )
+                },
+            ) {
                 openTab.value = AvailableScreens.SettingsScreen
 
-                SettingsScreen({navHost.popBackStack()})
+                SettingsScreen({ navHost.popBackStack() })
             }
 
         }
 
     }
 }
-
-
-/*
-
-
-
-
- */
