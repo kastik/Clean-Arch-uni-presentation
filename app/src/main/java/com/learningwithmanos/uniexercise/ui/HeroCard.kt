@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
@@ -21,7 +24,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import coil.compose.SubcomposeAsyncImage
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
@@ -30,7 +35,8 @@ import com.bumptech.glide.integration.compose.placeholder
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun HeroCard(
-    name: String, image: String,
+    name: String,
+    image: String,
     showQueryButton: Boolean,
     isInQueryScreen: Boolean,
     action1: () -> Unit, //In HeroScreen calls viewdetails,in query calls download
@@ -53,11 +59,17 @@ fun HeroCard(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                GlideImage(
+                SubcomposeAsyncImage(
                     model = image,
-                    contentDescription = "getString(R.id.picture_of_cat)",
-                    loading = placeholder { Icon(Icons.Default.Create, "") }
-                )
+                    loading = {
+                        CircularProgressIndicator()
+                    },
+                    error = { Text(text = "Something went wrong") },
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(180.dp, 180.dp)
+                        .padding(10.dp),
+                    contentScale = ContentScale.Crop)
             }
             Column(
                 Modifier
@@ -66,7 +78,6 @@ fun HeroCard(
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally){
                 Text(text = name, style = MaterialTheme.typography.headlineSmall)
-                //Text(text = data.availableComics.toString())
             }
             if (isInQueryScreen){
             Column(
