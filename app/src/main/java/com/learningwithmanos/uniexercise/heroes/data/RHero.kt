@@ -1,6 +1,25 @@
 package com.learningwithmanos.uniexercise.heroes.data
 
+import android.util.Log
 import com.google.gson.annotations.SerializedName
+
+
+data class Thumbnail (
+        @SerializedName("path")
+        val path: String,
+        @SerializedName("extension")
+        val ext: String
+)
+
+data class Comics (
+        @SerializedName("available")
+        val availableComics: Int
+)
+
+data class HeroData (
+        @SerializedName("results")
+        val results: List<RHero>
+)
 
 data class RHero(
         @SerializedName("id")
@@ -13,5 +32,18 @@ data class RHero(
         var availableComics: Comics,
 
         @SerializedName("thumbnail")
-        var imageUrl: Thumbnail
-)
+        var imageUrl: Thumbnail,
+
+        @SerializedName("description")
+        var desc: String
+){
+        fun toHero(): Hero {
+                return Hero(
+                        id = this.id,
+                        name = this.name,
+                        availableComics = this.availableComics.availableComics,
+                        imageUrl = "${imageUrl.path.replace("http", "https")}.${imageUrl.ext}",
+                        description = this.desc
+                )
+        }
+}

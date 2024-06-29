@@ -3,11 +3,10 @@ package com.learningwithmanos.uniexercise.heroes.source.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.learningwithmanos.uniexercise.heroes.data.LHero
+import com.learningwithmanos.uniexercise.heroes.data.Hero
 
 
-@Database(entities = [LHero::class], version = 3, exportSchema = false)
-@TypeConverters(Converters::class)
+@Database(entities = [Hero::class], version = 3, exportSchema = false)
 abstract class MarvelDatabase: RoomDatabase() {
     abstract fun marvelDao(): MarvelDao
 

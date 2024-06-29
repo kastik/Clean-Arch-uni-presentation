@@ -29,6 +29,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -56,15 +57,15 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.8.1")
-    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation(platform("androidx.compose:compose-bom:2024.05.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("androidx.paging:paging-common-android:3.3.0-alpha02")
+    implementation("androidx.paging:paging-common-android:3.3.0")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
@@ -75,11 +76,13 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
     // hilt
-    implementation("com.google.dagger:hilt-android:2.48")
+    implementation("com.google.dagger:hilt-android:2.49")
     ksp("com.google.dagger:hilt-android-compiler:2.47")
 
     // hilt and compose navigation
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     //Paging
     implementation("android.arch.paging:runtime:1.0.1")
@@ -91,9 +94,6 @@ dependencies {
 
     //Okhhtp
     implementation ("com.squareup.okhttp3:logging-interceptor:4.10.0")
-    //RxJava
-    implementation ("io.reactivex.rxjava2:rxjava:2.2.6")
-    implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
 
     //Room
     implementation( "androidx.room:room-ktx:2.6.1")
@@ -104,14 +104,15 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-    //CircleImageView
-    implementation ("de.hdodenhof:circleimageview:3.0.1")
-
     //Glide
     implementation ("com.github.bumptech.glide:glide:4.10.0")
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+
 
     //Image COIL
     implementation("io.coil-kt:coil-compose:2.5.0")
-    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+
+
+    //Material Icons
     implementation("androidx.compose.material:material-icons-extended")
 }

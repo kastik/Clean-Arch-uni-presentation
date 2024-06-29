@@ -1,6 +1,5 @@
 package com.learningwithmanos.uniexercise.heroes.repo
 
-import android.util.Log
 import com.learningwithmanos.uniexercise.heroes.data.Hero
 import com.learningwithmanos.uniexercise.heroes.source.local.HeroLocalSource
 import com.learningwithmanos.uniexercise.heroes.source.remote.HeroRemoteSource
@@ -23,18 +22,28 @@ interface HeroRepository {
      *
      * @return list of heroes
      */
-    suspend fun getHeroes(): Flow<List<Hero>>
+    //suspend fun getHeroes(): Flow<List<Hero>>
 
-    suspend fun getQuery(): Flow<List<Hero>>
-    suspend fun update(id: Int, description: String?)
+    suspend fun getStoredHeroes(): Flow<List<Hero>>
+
+    suspend fun getOnlineHeroes(name: String?=null): Flow<List<Hero>>
+
+    suspend fun storeLocalHero(hero: Hero)
     suspend fun updateApi(apikey: String, privatekey: String)
-    suspend fun setDesc(id: Int)
 }
 
 class HeroRepositoryImpl @Inject constructor(
     private val heroRemoteSource: HeroRemoteSource,
     private val heroLocalSource: HeroLocalSource,
 ) : HeroRepository {
+
+    /***TODO Question 4 uxma
+
+    Query can't be cached bc it's semi-random user input and 1000+ entries,
+    hero's tab has only locally stored dada
+
+    what was this for?
+
     @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun getHeroes(): Flow<List<Hero>>  {
         return heroLocalSource.isEmpty().flatMapLatest { isEmpty ->
@@ -47,23 +56,23 @@ class HeroRepositoryImpl @Inject constructor(
             }
         }
     }
+     ***/
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    override suspend fun getQuery(): Flow<List<Hero>> {
-        return heroLocalSource.getQuery()
+    override suspend fun getStoredHeroes(): Flow<List<Hero>> {
+        return heroLocalSource.getHeroes()
     }
 
-    override suspend fun update(id: Int, description: String?) {
-        heroLocalSource.update(id, description)
+    override suspend fun getOnlineHeroes(name: String?): Flow<List<Hero>> {
+        return flowOf(heroRemoteSource.getHeroes(name))
+    }
+
+    override suspend fun storeLocalHero(hero: Hero) {
+        heroLocalSource.storeHero(hero)
     }
 
     override suspend fun updateApi(apikey: String, privatekey: String) {
         heroLocalSource.updateApi(apikey, privatekey)
     }
 
-    override suspend fun setDesc(id: Int) {
-        val hero: Hero = heroRemoteSource.getDesc(id)
-        heroLocalSource.update(hero.id, hero.description)
-    }
 
 }

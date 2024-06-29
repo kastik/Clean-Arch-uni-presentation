@@ -1,4 +1,4 @@
-package com.learningwithmanos.uniexercise.theme
+package com.learningwithmanos.uniexercise.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

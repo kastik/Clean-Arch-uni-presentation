@@ -4,38 +4,27 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.learningwithmanos.uniexercise.heroes.data.LHero
+import com.learningwithmanos.uniexercise.heroes.data.Hero
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MarvelDao {
-
     @Insert
-    suspend fun insertAll( vararg hero: LHero)
+    suspend fun insertCharacter(hero: Hero)
 
-    @Insert
-    suspend fun insert(hero: LHero)
-
-    @Insert
-    suspend fun insertCharacters(hero: List<LHero>)
-
-    @Query("SELECT * FROM MarvelTable WHERE marvel_desc IS NOT 'null'")
-    fun getQuery(): Flow<List<LHero>>
     @Query("SELECT * FROM MarvelTable")
-    fun getAllHeroes(): Flow<List<LHero>>
+    fun getAllHeroes(): Flow<List<Hero>>
 
-    @Query("SELECT * FROM MarvelTable WHERE id =(:heroId)")
-    fun getHeroById(heroId: Int): Flow<LHero>
+    @Query("SELECT * FROM MarvelTable WHERE hero_id=:heroId")
+    fun getHeroById(heroId: Int): Flow<Hero>
+
+    @Query("SELECT EXISTS (SELECT * FROM MarvelTable WHERE hero_id=:heroId)")
+    suspend fun checkIfHeroExists(heroId: Int): Boolean
 
     @Query("SELECT (SELECT COUNT(*) FROM MarvelTable) == 0")
     fun isEmpty(): Flow<Boolean>
 
-    @Delete
-    fun delete(hero: LHero)
-
     @Query("DELETE FROM MarvelTable")
     suspend fun deleteAll()
 
-    @Query("UPDATE MarvelTable SET marvel_desc = :description WHERE id =:id")
-    suspend fun update(id: Int, description: String?)
 }

@@ -1,4 +1,4 @@
-package com.learningwithmanos.uniexercise.heroes.ui.SettingsScreen
+package com.learningwithmanos.uniexercise.ui.SettingsScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
