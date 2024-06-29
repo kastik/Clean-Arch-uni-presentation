@@ -12,6 +12,8 @@ import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUC
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUCImpl
 import com.learningwithmanos.uniexercise.heroes.usecase.QueryUC
 import com.learningwithmanos.uniexercise.heroes.usecase.QueryUSImpl
+import com.learningwithmanos.uniexercise.heroes.usecase.QuizHeroesImpl
+import com.learningwithmanos.uniexercise.heroes.usecase.QuizHeroesUC
 import com.learningwithmanos.uniexercise.heroes.usecase.SettingsScreenUC
 import com.learningwithmanos.uniexercise.heroes.usecase.SettingsScreenUCImpl
 import com.learningwithmanos.uniexercise.heroes.usecase.setDescriptionImpl
@@ -45,8 +47,13 @@ interface HeroesModule {
 
     @Binds
     fun bindsSettingsScreenUC(
-        settingsScreenUCImpl: SettingsScreenUCImpl
+        settingApi: SettingsScreenUCImpl
     ): SettingsScreenUC
+
+    @Binds
+    fun bindsQuizHeroesUC(
+        quizHeroesUC: QuizHeroesImpl
+    ): QuizHeroesUC
 
     // Repository
 
