@@ -1,5 +1,6 @@
 package com.learningwithmanos.uniexercise.ui.QuizScreen
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,34 +43,71 @@ fun QuizScreen() {
 
     val radioOptions = listOf("SpiderMan", "AquaMan", hero.name, "BatMan")
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
+    val showFirstTab = remember { mutableStateOf(true) }
 // Note that Modifier.selectableGroup() is essential to ensure correct accessibility behavior
-    Column(Modifier.selectableGroup()) {
-        radioOptions.forEach { text ->
-            Row(
-                Modifier.fillMaxWidth()
-                    .height(56.dp)
-                    .selectable(
+    AnimatedVisibility(visible = showFirstTab.value) {
+        Column(Modifier.selectableGroup()) {
+            radioOptions.forEach { text ->
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .selectable(
+                            selected = (text == selectedOption),
+                            onClick = { onOptionSelected(text) },
+                            role = Role.RadioButton
+                        )
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
                         selected = (text == selectedOption),
-                        onClick = { onOptionSelected(text) },
-                        role = Role.RadioButton
+                        onClick = null // null recommended for accessibility with screenreaders
                     )
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = (text == selectedOption),
-                    onClick = null // null recommended for accessibility with screenreaders
-                )
-                Text(
-                    text = text,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-            }
+                    Text(
+                        text = text,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(start = 16.dp)
+                    )
+                }
 
+            }
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Next")
+            }
         }
-        Button(onClick = { /*TODO*/ }) {
-            Text(text = "Next")
+
+    }
+    AnimatedVisibility(visible = !showFirstTab.value) {
+        Column(Modifier.selectableGroup()) {
+            radioOptions.forEach { text ->
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .selectable(
+                            selected = (text == selectedOption),
+                            onClick = { onOptionSelected(text) },
+                            role = Role.RadioButton
+                        )
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
+                        selected = (text == selectedOption),
+                        onClick = null // null recommended for accessibility with screenreaders
+                    )
+                    Text(
+                        text = text,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(start = 16.dp)
+                    )
+                }
+
+            }
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Next")
+            }
         }
     }
 }
