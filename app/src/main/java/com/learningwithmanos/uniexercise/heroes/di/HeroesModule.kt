@@ -11,13 +11,15 @@ import com.learningwithmanos.uniexercise.heroes.source.remote.RestFrameworkImpl
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUC
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUCImpl
 import com.learningwithmanos.uniexercise.heroes.usecase.QueryUC
-import com.learningwithmanos.uniexercise.heroes.usecase.QueryUCImpl
+import com.learningwithmanos.uniexercise.heroes.usecase.QuizHeroesImpl
+import com.learningwithmanos.uniexercise.heroes.usecase.QuizHeroesUC
 import com.learningwithmanos.uniexercise.heroes.usecase.SettingsScreenUC
 import com.learningwithmanos.uniexercise.heroes.usecase.SettingsScreenUCImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -32,13 +34,23 @@ interface HeroesModule {
 
     @Binds
     fun bindsQueryUC(
-        queryUCImpl: QueryUCImpl
+        queryUCImpl: QuizHeroesImpl
     ): QueryUC
+
+//    @Binds
+//    fun bindsgetDescriptionUC(
+//        getDescriptionUcImpl: setDescriptionImpl
+//    ): setDescriptionUC
 
     @Binds
     fun bindsSettingsScreenUC(
-        settingsScreenUCImpl: SettingsScreenUCImpl
+        settingApi: SettingsScreenUCImpl
     ): SettingsScreenUC
+
+    @Binds
+    fun bindsQuizHeroesUC(
+        quizHeroesUC: QuizHeroesImpl
+    ): QuizHeroesUC
 
     // Repository
 
