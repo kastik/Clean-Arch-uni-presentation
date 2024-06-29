@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
@@ -40,6 +41,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
@@ -56,16 +58,16 @@ enum class AvailableScreens {
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
 fun MainUi() {
     val navHost = rememberNavController()
     val searchText = rememberSaveable { mutableStateOf("") }
-    val isSearching = remember { mutableStateOf(false) }
     val navigate = { screen:AvailableScreens -> navHost.navigate(screen.name){launchSingleTop = true} }
     val navBackStackEntry by navHost.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+    val focusManager = LocalFocusManager.current
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -121,21 +123,21 @@ fun MainUi() {
                         SearchBar(
                             enabled = currentRoute == AvailableScreens.QueryScreen.name,
                             query = searchText.value,//text showed on SearchBar
-                            active = isSearching.value,
+                            active = false,
                             onActiveChange = {},
                             onQueryChange = { searchText.value = it },
-                            onSearch = {},
+                            onSearch = { focusManager.clearFocus() },
                             trailingIcon = {
                                 Row {
+                                    AnimatedVisibility(visible = searchText.value != "") {
+                                        IconButton(onClick = { searchText.value = "" }) {
+                                            Icon(Icons.Default.Clear, "")
+                                        }
+                                    }
                                     IconButton(onClick = {
                                         navigate(AvailableScreens.SettingsScreen)
                                     }) {
                                         Icon(Icons.Default.Settings, "")
-                                    }
-                                    AnimatedVisibility(visible = currentRoute == AvailableScreens.QueryScreen.toString()) {
-                                        IconButton(onClick = { /*TODO*/ }) {
-                                            Icon(Icons.Default.Search, "")
-                                        }
                                     }
                                 }
                             },
