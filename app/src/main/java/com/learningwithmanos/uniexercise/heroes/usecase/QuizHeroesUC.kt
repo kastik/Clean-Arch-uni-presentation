@@ -18,7 +18,7 @@ class QuizHeroesImpl @Inject constructor(
 ) : QuizHeroesUC {
     override suspend fun execute(): Flow<List<Hero>> {
         Log.d("MyLog","QuizHeroesImpl")
-        return heroRepository.getHeroes()
+        return heroRepository.getStoredHeroes()
     }
 
 }
