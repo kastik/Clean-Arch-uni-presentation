@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -35,21 +36,21 @@ import javax.inject.Inject
 fun QuizScreen(
     viewModel: QuizViewModel = hiltViewModel()
 ) {
-    val hero = viewModel.getRandomHero()
+    //val hero = viewModel.getRandomHero()
+    val hero = viewModel.randHero
 
-    Row {
-        Text(text = "Quiz")
-    }
+
     Column {
-        AsyncImage(model = hero?.imageUrl, contentDescription = "")
-        Text(text = "Who is this hero")
-    }
+        AsyncImage(model = hero.value?.imageUrl, contentDescription = "", modifier = Modifier.height(200.dp))
+        Text(text = "Who is the hero depicted above?")
+
     HorizontalDivider()
 
-    val radioOptions = listOf("SpiderMan", "AquaMan", hero?.name, "BatMan")
+    val radioOptions = listOf("SpiderMan", "AquaMan", hero.value?.name, "BatMan")
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
     val showFirstTab = remember { mutableStateOf(true) }
-    var showAlert = false
+    var showAlert = remember { mutableStateOf(false) }
+
 // Note that Modifier.selectableGroup() is essential to ensure correct accessibility behavior
     AnimatedVisibility(visible = showFirstTab.value) {
         Column(Modifier.selectableGroup()) {
@@ -81,36 +82,35 @@ fun QuizScreen(
 
             }
             Button(onClick = {
-                if (hero?.name == selectedOption) {
-                    showAlert = true
-                } }) {
+                showAlert.value = true
+            }) {
                 Text(text = "Next")
             }
 
-            if (showAlert) {
+            if (showAlert.value && selectedOption == hero.value?.name) {
                 AlertDialog(
-                    onDismissRequest = { showAlert = false },
+                    onDismissRequest = { showAlert.value = false },
                     title = { Text("Hero Matched") },
-                    text = { Text("You selected the correct hero: $selectedOption") },
+                    text = { Text("You selected the correct hero: ${hero.value?.name}") },
                     confirmButton = {
-                        Button(onClick = { showAlert = false }) {
+                        Button(onClick = { showAlert.value = false }) {
                             Text("OK")
                         }
                     }
                 )
-            } else {
+            } else if (showAlert.value && selectedOption != hero.value?.name) {
                 AlertDialog(
-                    onDismissRequest = { showAlert = false },
+                    onDismissRequest = { showAlert.value = false },
                     title = { Text("Hero Not Matched") },
-                    text = { Text("You selected the wrong hero: $selectedOption") },
+                    text = { Text("You selected the wrong hero the correct was: ${hero.value?.name}") },
                     confirmButton = {
-                        Button(onClick = { showAlert = false }) {
+                        Button(onClick = { showAlert.value = false }) {
                             Text("OK")
                         }
                     }
                 )
             }
         }
-
+    }
     }
 }

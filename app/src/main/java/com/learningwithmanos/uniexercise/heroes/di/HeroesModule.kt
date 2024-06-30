@@ -11,6 +11,7 @@ import com.learningwithmanos.uniexercise.heroes.source.remote.RestFrameworkImpl
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUC
 import com.learningwithmanos.uniexercise.heroes.usecase.GetHeroesUCImpl
 import com.learningwithmanos.uniexercise.heroes.usecase.QueryUC
+import com.learningwithmanos.uniexercise.heroes.usecase.QueryUCImpl
 import com.learningwithmanos.uniexercise.heroes.usecase.QuizHeroesImpl
 import com.learningwithmanos.uniexercise.heroes.usecase.QuizHeroesUC
 import com.learningwithmanos.uniexercise.heroes.usecase.SettingsScreenUC
@@ -34,7 +35,7 @@ interface HeroesModule {
 
     @Binds
     fun bindsQueryUC(
-        queryUCImpl: QuizHeroesImpl
+        queryUCImpl: QueryUCImpl
     ): QueryUC
 
 //    @Binds

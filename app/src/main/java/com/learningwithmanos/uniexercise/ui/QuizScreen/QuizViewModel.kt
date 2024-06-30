@@ -1,5 +1,8 @@
 package com.learningwithmanos.uniexercise.ui.QuizScreen
 
+import android.util.Log
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learningwithmanos.uniexercise.heroes.data.Hero
@@ -18,21 +21,24 @@ class QuizViewModel @Inject constructor(
     private val quizUC: QuizHeroesImpl
 ) : ViewModel() {
     private val _heroesStateFlow: MutableStateFlow<List<Hero>> = MutableStateFlow(emptyList())
-    var heroesStateFlow: StateFlow<List<Hero>> = _heroesStateFlow
+    //var heroesStateFlow: StateFlow<List<Hero>> = _heroesStateFlow
+    var randHero: MutableState<Hero?> = mutableStateOf(null)
 
     init {
         viewModelScope.launch {
             quizUC.execute().collect{ heroes ->
                 _heroesStateFlow.value = heroes
+                Log.d("QuizViewModel", "Heroes: ${heroes.size}")
+                randHero.value = getRandomHero()
             }
         }
     }
 
     fun getRandomHero(): Hero? {
-        val heroes = _heroesStateFlow.value
-        return if (heroes.isNotEmpty()) {
-            heroes[Random.nextInt(heroes.size)]
+        return if (_heroesStateFlow.value.isNotEmpty()) {
+            _heroesStateFlow.value[Random.nextInt((_heroesStateFlow.value.size-1))]
         } else {
+            Log.d("QuizViewModel", "No heroes")
             null
         }
     }
